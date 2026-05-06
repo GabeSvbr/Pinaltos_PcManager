@@ -2,7 +2,7 @@ import os, subprocess, time
 
 #============================================= DEF'S OPTION 1 =================================================================#"
 def Syu():
-    bar(); print("\033[38;5;208m             ----- Updating System -----  \033[0m"); bar(); time.sleep(0.4)
+    print("\033[38;5;208m             ----- Updating System -----  \033[0m"); bar(); time.sleep(0.4)
     comandos = [
     ("update + cleanup", "yay -Syu --noconfirm && flatpak update -y && yay -Scc --noconfirm && sudo pacman -Scc --noconfirm && sudo pacman -Rns $(pacman -Qtdq 2>/dev/null)")
     ]
@@ -82,7 +82,7 @@ def show_packages():
 
 #============================================= DEF'S OPTION 4 =================================================================#"
 def list_components():
-    clear_console();   bar();                print("\033[1;38;5;208m                  --- COMPONENTS ---                          \033[0m");  bar()
+    clear_console();                print("\033[1;38;5;208m                  --- COMPONENTS ---                          \033[0m");  bar()
     time_start= time.time();    os.system("inxi -F");   time_end=time.time();
     bar();print(f"\033[1;93mElapsed time: {time_start - time_end:.4f}\033[0m");bar();confirmation()
 #============================================= DEF'S OPTION 5 =================================================================#"
@@ -247,57 +247,57 @@ def open_fastfetch_config():
 def menu_spacing():
     print("\033[1m |                                                      |\033[0m")
 def main_menu_print():
-    clear_console();bar()
+    clear_console()
     print(f"\033[1;38;5;208m  ----< {time.strftime('%H:%M')} >----< Pinalto's CachyOS Manager >-------\033[0m");    bar()
-    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mComplete System Update\033[0m                          |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mNetwork Tools\033[0m                                   |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mSetup Options\033[0m                                   |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mList Machine Components\033[0m                         |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mPower Options\033[0m                                   |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m6 ➜\033[0m \033[1;36mAnime Player\033[0m                                    |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m7 ➜\033[0m \033[1;36mTerminal Options\033[0m                                |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m8 ➜\033[0m \033[1;36mFastFetch Options\033[0m                               |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mQuit\033[0m                                            |\033[0m"); menu_spacing();   bar()
+    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mComplete System Update\033[0m                          |\033[0m"); 
+    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mNetwork Tools\033[0m                                   |\033[0m"); 
+    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mSetup Options\033[0m                                   |\033[0m"); 
+    print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mList Machine Components\033[0m                         |\033[0m");
+    print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mPower Options\033[0m                                   |\033[0m"); 
+    print("\033[1m |  \033[38;5;208m6 ➜\033[0m \033[1;36mAnime Player\033[0m                                    |\033[0m"); 
+    print("\033[1m |  \033[38;5;208m7 ➜\033[0m \033[1;36mTerminal Options\033[0m                                |\033[0m"); 
+    print("\033[1m |  \033[38;5;208m8 ➜\033[0m \033[1;36mFastFetch Options\033[0m                               |\033[0m"); 
+    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mQuit\033[0m                                            |\033[0m");  bar()
 def opc2_menu_print():
     clear_console();
     print(f"\033[1;38;5;208m                 Configuration Menu...\033[0m"); bar()
-    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mNetwork Speedtest\033[0m                               |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mRestart Wifi Network\033[0m                            |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mShow Local IP\033[0m                                   |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m"); menu_spacing();   bar()
+    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mNetwork Speedtest\033[0m                               |\033[0m"); 
+    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mRestart Wifi Network\033[0m                            |\033[0m"); 
+    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mShow Local IP\033[0m                                   |\033[0m"); 
+    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m"); bar()
 def opc3_menu_print():
     clear_console()
     print(f"\033[1;38;5;208m                 Setup Menu...\033[0m"); bar()
-    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mDownload Utilitaries Packages\033[0m                   |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mDownload Gaming Packages\033[0m                        |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mDownload Worktools Packages\033[0m                     |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mPackages Info:\033[0m                                  |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m"); menu_spacing();  bar()
+    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mDownload Utilitaries Packages\033[0m                   |\033[0m"); 
+    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mDownload Gaming Packages\033[0m                        |\033[0m"); 
+    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mDownload Worktools Packages\033[0m                     |\033[0m");
+    print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mPackages Info:\033[0m                                  |\033[0m");
+    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");   bar()
 def opc5_menu_print():
     clear_console()
     print("\033[38;5;208m             ----- Power Options -----  \033[0m"); bar()
-    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mPower Off\033[0m                                       |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mReboot\033[0m                                          |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mSuspend\033[0m                                         |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m"); menu_spacing();  bar()
+    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mPower Off\033[0m                                       |\033[0m"); 
+    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mReboot\033[0m                                          |\033[0m"); 
+    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mSuspend\033[0m                                         |\033[0m");
+    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");  bar()
 def opc7_menu_print():
     clear_console();
     print(f"\033[1;38;5;208m                 Terminal Menu...\033[0m"); bar()
-    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mOpen Fish Terminal.conf\033[0m                         |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mSetup Custom Fish Terminal Config\033[0m               |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mOpen Kitty Terminal Conf\033[0m                        |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mSetup Custom Kitty Terminal Conf\033[0m                |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mKitty Themes\033[0m                                    |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m"); menu_spacing();  bar()
+    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mOpen Fish Terminal.conf\033[0m                         |\033[0m"); 
+    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mSetup Custom Fish Terminal Config\033[0m               |\033[0m"); 
+    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mOpen Kitty Terminal Conf\033[0m                        |\033[0m");
+    print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mSetup Custom Kitty Terminal Conf\033[0m                |\033[0m");
+    print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mKitty Themes\033[0m                                    |\033[0m"); 
+    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");  bar()
 def opc8_menu_print():
     clear_console()
     print(f"\033[1;38;5;208m                 FastFetch Menu...\033[0m"); bar()
-    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mFastFetch\033[0m                                       |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mOpen FastFetch Ascii.txt\033[0m                        |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mSetup FastFetch Ascii Art\033[0m                       |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mOpen Fastfetch.json\033[0m                             |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mSetup Fastfetch json\033[0m                            |\033[0m"); menu_spacing()
-    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m"); menu_spacing();  bar()
+    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mFastFetch\033[0m                                       |\033[0m"); 
+    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mOpen FastFetch Ascii.txt\033[0m                        |\033[0m"); 
+    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mSetup FastFetch Ascii Art\033[0m                       |\033[0m");
+    print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mOpen Fastfetch.json\033[0m                             |\033[0m"); 
+    print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mSetup Fastfetch json\033[0m                            |\033[0m"); 
+    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");  bar()
 
 #=============================================  Developer Menu  ===================================================================
 
@@ -329,7 +329,7 @@ def confirmation():
 def confirmation_power():
     return input("\033[31mAre you sure \033[32m(y/n)\033[31m: \033[0m").lower() == "y"
 def leave_menu():
-    print("\033[1;32mReturning...\033[0m"); time.sleep(0.5)
+    print("\033[1;32mReturning...\033[0m"); time.sleep(0.25)
 def all_done():
     print("\033[32mAll Done!\033[0m");         time.sleep(1)
 def valid():
@@ -369,7 +369,7 @@ def menu():
                 elif opc == 3:
                     ip_info()
                 else:
-                    leave_menu();time.sleep(0.6);  break
+                    leave_menu();  break
 
 #===> menu option 3
         elif opc == 3:
@@ -389,7 +389,7 @@ def menu():
                 elif opc == 4:
                     show_packages();    confirmation()
                 else:
-                    leave_menu();       time.sleep(0.6);            break
+                    leave_menu();            break
 
 #===> menu option 4
         elif opc == 4:
@@ -423,7 +423,7 @@ def menu():
                 elif opc == 5:
                     os.system("kitten themes");
                 else:
-                   leave_menu() ;   time.sleep(0.6);      break
+                   leave_menu() ;      break
 
 #===> menu option 8
         elif opc == 8:
@@ -446,7 +446,7 @@ def menu():
                 elif opc == 5:
                     create_fastfetch();     all_done()
                 else:
-                    leave_menu();time.sleep(0.6);  break
+                    leave_menu();  break
 
 #===> Extra menu's
         elif opc == 9:
