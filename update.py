@@ -12,26 +12,22 @@ def Syu():
             print(f"[ok] {nome}")
         except subprocess.CalledProcessError:
             print(f"[erro] {nome}")
-
 #============================================= DEF'S OPTION 2 =================================================================#"
 def speedtest_cli():
     print("\n\033[1;32mChecking speedtest-cli Instalation...\033[0m")
     subprocess.run("pacman -Qq speedtest-cli >/dev/null || sudo pacman -S --noconfirm speedtest-cli", shell=True)
     print("\033[1;32m Inicializing Speedtest...\n\033[0m");time.sleep(0.5)
     subprocess.run(["speedtest-cli"]);      confirmation()
-
 def restart_network():
     print("\n\033[1;32mRestarting Network Manager...\033[0m")
     subprocess.run(["sudo", "systemctl", "restart", "NetworkManager"])
     print("\n\033[1;32mWifi conection restarted.\033[0m");      confirmation()
-
 def ip_info():
     print("\n\033[1;38;5;120m--- IP INFO ---\033[0m")
     try:
         ip = subprocess.check_output(r"ip route get 1.1.1.1 | grep -oP 'src \K\S+'", shell=True).decode().strip()
         print(f"Local IP: {ip}"); confirmation()
     except: print("Local IP: Unable to get it.")
-
 #============================================= DEF'S OPTION 3 =================================================================#"
 def download_utilitaries():
     comando = '''
@@ -39,7 +35,6 @@ def download_utilitaries():
     yay -S --needed shortwave helium-browser-bin bazaar brave-bin &&
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo &&
     flatpak install -y flathub io.github.brunofin.Cohesion org.localsend.localsend_app app.ytmdesktop.ytmdesktop io.missioncenter.MissionCenter com.rtosta.zapzap io.gitlab.adhami3310.Impression'''
-
     try:
         subprocess.run(comando, shell=True, check=True)
         print("Instalation Over.")
@@ -62,23 +57,17 @@ def download_worktools():
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo &&
     flatpak install -y flathub it.mijorus.gearlever com.github.tchx84.Flatseal
     '''
-
     try:
         subprocess.run(comando, shell=True, check=True)
         print("Instalation Over.")
     except subprocess.CalledProcessError:
         print("Error During Installation.")
 def show_packages():
-    print("\n=== UTILITARIES ===")
-    print("pacman: yay, python, xorg-server,curl, libreoffice-fresh, git, python-pip, thunderbird, kitty, nemo, vlc, flatpak, zip, fuse2")
-    print("yay: shortwave, brave-bin, helium-browser-bin, bazaar")
-    print("flatpak: Cohesion, localsend, ytmdesktop, MissionCenter, Bazaar, Impression")
-    print("\n=== GAMING ===")
-    print("pacman: steam, mangohud, gamemode, prismlauncher, plasma-x11-session, kwin-x11")
-    print("\n=== WORKTOOLS ===")
-    print("pacman: vscode, yay, python, wget, python-pip, nmap, krita, neofetch, obs-studio, vim, vesktop, pycharm-community-edition, virtualbox, virtualbox-host-modules-arch")
-    print("yay: google-earth-pro")
-    print("flatpak:it.mijorus.gearlever, com.github.tchx84.Flatseal")
+    print("\n=== UTILITARIES ===\npacman: yay, python, xorg-server, curl, libreoffice-fresh, git, python-pip, thunderbird, kitty, nemo, vlc, flatpak, zip, fuse2")
+    print("yay: shortwave, brave-bin, helium-browser-bin, bazaar\nflatpak: Cohesion, localsend, ytmdesktop, MissionCenter, Bazaar, Impression")
+    print("\n=== GAMING ===\npacman: steam, mangohud, gamemode, prismlauncher, plasma-x11-session, kwin-x11")
+    print("\n=== WORKTOOLS ===\npacman: vscode, yay, python, wget, python-pip, nmap, krita, neofetch, obs-studio, vim, vesktop, pycharm-community-edition, virtualbox, virtualbox-host-modules-arch")
+    print("yay: google-earth-pro\nflatpak: it.mijorus.gearlever, com.github.tchx84.Flatseal")
 
 #============================================= DEF'S OPTION 4 =================================================================#"
 def list_components():
@@ -89,26 +78,18 @@ def list_components():
 def power_menu():
     while True:
         opc5_menu_print()
-        try:
-            opc = get_option()
-        except ValueError:
-            valid();        continue
+        try:    opc = get_option()
+        except ValueError:      valid();        continue
         if opc == 1:
             opc = input("      \033[31mAre you sure \033[32m(y/n)\033[31m: \033[0m")
-            if opc == "y":
-                os.system("shutdown now")
-            else:
-                clear_console();    leave_menu()
+            if opc == "y":      os.system("shutdown now")
+            else:       clear_console();    leave_menu()
         elif opc == 2:
             opc = input("      \033[31mAre you sure \033[32m(y/n)\033[31m: \033[0m")
-            if opc == "y":
-                os.system("reboot")
-            else:
-                clear_console();    leave_menu()
-        elif opc == 3:
-                os.system("systemctl suspend")
-        else:
-            leave_menu();   break
+            if opc == "y":      os.system("reboot")
+            else:       clear_console();    leave_menu()
+        elif opc == 3:      os.system("systemctl suspend")
+        else:       leave_menu();   break
 #============================================= DEF'S OPTION 6 =================================================================#"
 def run_ani_cli():
     try:
@@ -167,20 +148,17 @@ hide_window_decorations yes
 include current-theme.conf
 """
     os.makedirs(os.path.dirname(caminho), exist_ok=True)
-
     with open(caminho, "w") as f:  # 🔥 "w" apaga tudo
         f.write(config)
 def open_kitty_conf():
     os.system("xdg-open ~/.config/kitty/kitty.conf")
-
 #============================================= DEF'S OPTION 8 =================================================================#"
-
 def create_fastfetch():
     caminho_dir = os.path.expanduser("~/.config/fastfetch")
     os.makedirs(caminho_dir, exist_ok=True)
-
+#------------
     caminho_arquivo = os.path.join(caminho_dir, "config.jsonc")
-
+#------------
     conteudo = """{
     "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
     "logo": {
@@ -221,7 +199,6 @@ def create_fastfetch():
 }"""
     with open(caminho_arquivo, "w", encoding="utf-8") as f:
         f.write(conteudo)
-
 def create_new_ascii():
     caminho = os.path.expanduser("~/.config/fastfetch/ascii.txt")
     os.makedirs(os.path.dirname(caminho), exist_ok=True)
@@ -235,20 +212,15 @@ def create_new_ascii():
 """
     with open(caminho, "w", encoding="utf-8") as f:
         f.write(arte)
-
 def open_ascii_config():
     os.system("xdg-open ~/.config/fastfetch/ascii.txt")
 def open_fastfetch_config():
     os.system("xdg-open ~/.config/fastfetch/config.jsonc")
-
 #============================================= Menu's Print's =================================================================#"
-
-# ---- Main Menu Print:
 def menu_spacing():
     print("\033[1m |                                                      |\033[0m")
 def main_menu_print():
-    clear_console()
-    print(f"\033[1;38;5;208m  ----< {time.strftime('%H:%M')} >----< Pinalto's CachyOS Manager >-------\033[0m");    bar()
+    clear_console();        print(f"\033[1;38;5;208m  ----< {time.strftime('%H:%M')} >----< Pinalto's CachyOS Manager >-------\033[0m");    bar()
     print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mComplete System Update\033[0m                          |\033[0m"); 
     print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mNetwork Tools\033[0m                                   |\033[0m"); 
     print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mSetup Options\033[0m                                   |\033[0m"); 
@@ -259,30 +231,26 @@ def main_menu_print():
     print("\033[1m |  \033[38;5;208m8 ➜\033[0m \033[1;36mFastFetch Options\033[0m                               |\033[0m"); 
     print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mQuit\033[0m                                            |\033[0m");  bar()
 def opc2_menu_print():
-    clear_console();
-    print(f"\033[1;38;5;208m                 Configuration Menu...\033[0m"); bar()
+    clear_console();        print(f"\033[1;38;5;208m                 Configuration Menu...\033[0m"); bar()
     print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mNetwork Speedtest\033[0m                               |\033[0m"); 
     print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mRestart Wifi Network\033[0m                            |\033[0m"); 
     print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mShow Local IP\033[0m                                   |\033[0m"); 
     print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m"); bar()
 def opc3_menu_print():
-    clear_console()
-    print(f"\033[1;38;5;208m                 Setup Menu...\033[0m"); bar()
+    clear_console();        print(f"\033[1;38;5;208m                 Setup Menu...\033[0m"); bar()
     print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mDownload Utilitaries Packages\033[0m                   |\033[0m"); 
     print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mDownload Gaming Packages\033[0m                        |\033[0m"); 
     print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mDownload Worktools Packages\033[0m                     |\033[0m");
     print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mPackages Info:\033[0m                                  |\033[0m");
     print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");   bar()
 def opc5_menu_print():
-    clear_console()
-    print("\033[38;5;208m             ----- Power Options -----  \033[0m"); bar()
+    clear_console();        print("\033[38;5;208m             ----- Power Options -----  \033[0m"); bar()
     print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mPower Off\033[0m                                       |\033[0m"); 
     print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mReboot\033[0m                                          |\033[0m"); 
     print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mSuspend\033[0m                                         |\033[0m");
     print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");  bar()
 def opc7_menu_print():
-    clear_console();
-    print(f"\033[1;38;5;208m                 Terminal Menu...\033[0m"); bar()
+    clear_console();    print(f"\033[1;38;5;208m                 Terminal Menu...\033[0m"); bar()
     print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mOpen Fish Terminal.conf\033[0m                         |\033[0m"); 
     print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mSetup Custom Fish Terminal Config\033[0m               |\033[0m"); 
     print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mOpen Kitty Terminal Conf\033[0m                        |\033[0m");
@@ -290,17 +258,14 @@ def opc7_menu_print():
     print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mKitty Themes\033[0m                                    |\033[0m"); 
     print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");  bar()
 def opc8_menu_print():
-    clear_console()
-    print(f"\033[1;38;5;208m                 FastFetch Menu...\033[0m"); bar()
+    clear_console();    print(f"\033[1;38;5;208m                 FastFetch Menu...\033[0m"); bar()
     print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mFastFetch\033[0m                                       |\033[0m"); 
     print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mOpen FastFetch Ascii.txt\033[0m                        |\033[0m"); 
     print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mSetup FastFetch Ascii Art\033[0m                       |\033[0m");
     print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mOpen Fastfetch.json\033[0m                             |\033[0m"); 
     print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mSetup Fastfetch json\033[0m                            |\033[0m"); 
     print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");  bar()
-
 #=============================================  Developer Menu  ===================================================================
-
 def developer_menu():
     clear_console();      print(time.strftime("%H:%M"))
     print("\033[31mTexto vermelho\033[0m")
@@ -316,7 +281,6 @@ def developer_menu():
         else:
             print("Leaving")
             time.sleep(0.2);break
-
 #============================================= Little DEF's ======================================================================
 def bar():
     print("\033[1m#========================================================#\033[0m")
@@ -338,126 +302,73 @@ def get_option():
     val = int(input("    \033[1;38;5;208mOption: \033[0m")or 0)
     return val
 #============================================= MAIN NAVIGATOR ====================================================================================
-def menu():
+def main():
     cont1 = 0
     while cont1 == 0:
         main_menu_print()
-        try:
-            opc = get_option()
-        except ValueError:
-            valid();    continue
+        try:    opc = get_option()
+        except ValueError:      valid();    continue
 #===> menu option 1
         if opc == 1:
-            time_start = time.time();       clear_console()
-            Syu()
+            time_start = time.time();       clear_console();        Syu()
             time_end = time.time();bar();         print(f"\033[1;93mElapsed time: {time_start - time_end:.4f}\033[0m")
             bar();  confirmation()
-
 #===> menu option 2
         elif opc == 2:
             while True:
                 opc2_menu_print()
                 try:
                     opc = get_option()
-                except ValueError:
-                    valid()
-                    continue
-                if opc == 1:
-                   speedtest_cli()
-                elif opc == 2:
-                    restart_network()
-                elif opc == 3:
-                    ip_info()
-                else:
-                    leave_menu();  break
-
+                except ValueError:      valid()     ;continue
+                if opc == 1:        speedtest_cli()
+                elif opc == 2:      restart_network()
+                elif opc == 3:      ip_info()
+                else:       leave_menu();  break
 #===> menu option 3
         elif opc == 3:
             while True:
                 opc3_menu_print()
                 try:
                     opc = get_option()
-                except ValueError:
-                    valid()
-                    continue
-                if opc == 1:
-                    download_utilitaries();     all_done()
-                elif opc == 2:
-                    download_gaming();      all_done()
-                elif opc == 3:
-                    download_worktools();   all_done()
-                elif opc == 4:
-                    show_packages();    confirmation()
-                else:
-                    leave_menu();            break
-
+                except ValueError:      valid();continue
+                if opc == 1:        download_utilitaries();     all_done()
+                elif opc == 2:      download_gaming();      all_done()
+                elif opc == 3:      download_worktools();   all_done()
+                elif opc == 4:      show_packages();    confirmation()
+                else:       leave_menu();            break
 #===> menu option 4
-        elif opc == 4:
-            clear_console();  list_components()
+        elif opc == 4:      clear_console();  list_components()
 #===> menu option 5
-        elif opc == 5:
-            clear_console(); power_menu()
+        elif opc == 5:      clear_console(); power_menu()
 #===> menu option 6
-        elif opc == 6:
-            run_ani_cli()
+        elif opc == 6:      run_ani_cli()
 #===> menu option 7
         elif opc == 7:
             while True:
                 opc7_menu_print();
-                try:
-                    opc = get_option()
-                except ValueError:
-                    valid()
-                    continue
-                if opc == 1:
-                    subprocess.run(["kate", "/usr/share/cachyos-fish-config/cachyos-config.fish"])
-                elif opc == 2:
-                    update_config_fish();           all_done()
-
-                elif opc == 3:
-                    open_kitty_conf()
-
-                elif opc == 4:
-                        configure_kitty();          all_done()
-
-                elif opc == 5:
-                    os.system("kitten themes");
-                else:
-                   leave_menu() ;      break
-
+                try:   opc = get_option()
+                except ValueError:  valid();   continue
+                if opc == 1:     subprocess.run(["kate", "/usr/share/cachyos-fish-config/cachyos-config.fish"])
+                elif opc == 2:   update_config_fish();           all_done()
+                elif opc == 3:  open_kitty_conf()
+                elif opc == 4:  configure_kitty();          all_done()
+                elif opc == 5: os.system("kitten themes");
+                else: leave_menu() ;      break
 #===> menu option 8
         elif opc == 8:
              while True:
-                opc8_menu_print();
-                try:
-                    opc = get_option()
-                except ValueError:
-                    valid()
-                    continue
+                opc8_menu_print()
+                try:    opc = get_option()
+                except ValueError:      valid();                    continue
                 home = os.path.expanduser("~")
-                if opc == 1:
-                    fastfetch();        tungtung = input(":")
-                elif opc == 2:
-                    open_ascii_config();      all_done()
-                elif opc == 3:
-                    create_new_ascii();     all_done()
-                elif opc == 4:
-                    open_fastfetch_config();    all_done()
-                elif opc == 5:
-                    create_fastfetch();     all_done()
-                else:
-                    leave_menu();  break
-
+                if opc == 1:    fastfetch();        open_close_tab = input(":")
+                elif opc == 2:  open_ascii_config();      all_done()
+                elif opc == 3:  create_new_ascii();     all_done()
+                elif opc == 4:  open_fastfetch_config();    all_done()
+                elif opc == 5:  create_fastfetch();     all_done()
+                else:   leave_menu();  break
 #===> Extra menu's
-        elif opc == 9:
-            developer_menu()
-        elif opc == 0:
-            cont1 += 1;                print("      \033[31mGoodbye...\033[0m")
-            time.sleep(0.8); clear_console()
-        else:
-            valid()
+        elif opc == 9:      developer_menu()
+        else:   cont1 += 1;        print("      \033[31mGoodbye...\033[0m");  time.sleep(0.5); clear_console()
 #===================================================== MAIN ====================================================#"
-def main():
-    menu()
-"#===================================================================================================================#"
 main()
