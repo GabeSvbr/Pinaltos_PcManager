@@ -36,9 +36,9 @@ def ip_info():
 def download_utilitaries():
     comando = '''
     sudo pacman -S --needed yay python xorg-server curl speedtest-cli libreoffice-fresh git python-pip python thunderbird kitty nemo vlc flatpak zip fuse2 &&
-    yay -S --needed shortwave helium-browser-bin bazaar &&
+    yay -S --needed shortwave helium-browser-bin bazaar brave-bin &&
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo &&
-    flatpak install -y flathub io.github.brunofin.Cohesion org.localsend.localsend_app com.brave.Browser app.ytmdesktop.ytmdesktop io.missioncenter.MissionCenter com.rtosta.zapzap io.gitlab.adhami3310.Impression'''
+    flatpak install -y flathub io.github.brunofin.Cohesion org.localsend.localsend_app app.ytmdesktop.ytmdesktop io.missioncenter.MissionCenter com.rtosta.zapzap io.gitlab.adhami3310.Impression'''
 
     try:
         subprocess.run(comando, shell=True, check=True)
@@ -71,8 +71,8 @@ def download_worktools():
 def show_packages():
     print("\n=== UTILITARIES ===")
     print("pacman: yay, python, xorg-server,curl, libreoffice-fresh, git, python-pip, thunderbird, kitty, nemo, vlc, flatpak, zip, fuse2")
-    print("yay: shortwave")
-    print("flatpak: Cohesion, localsend, Brave.Browser, ytmdesktop, MissionCenter, Bazaar, Impression")
+    print("yay: shortwave, brave-bin, helium-browser-bin, bazaar")
+    print("flatpak: Cohesion, localsend, ytmdesktop, MissionCenter, Bazaar, Impression")
     print("\n=== GAMING ===")
     print("pacman: steam, mangohud, gamemode, prismlauncher, plasma-x11-session, kwin-x11")
     print("\n=== WORKTOOLS ===")
