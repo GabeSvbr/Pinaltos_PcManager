@@ -32,9 +32,9 @@ def ip_info():
 def download_utilitaries():
     comando = '''
     sudo pacman -S --needed yay python xorg-server curl speedtest-cli libreoffice-fresh git python-pip python thunderbird kitty nemo vlc flatpak zip fuse2 &&
-    yay -S --needed shortwave helium-browser-bin bazaar brave-bin &&
+    yay -S --needed shortwave helium-browser-bin bazaar brave-bin ytmdesktop &&
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo &&
-    flatpak install -y flathub io.github.brunofin.Cohesion org.localsend.localsend_app app.ytmdesktop.ytmdesktop io.missioncenter.MissionCenter com.rtosta.zapzap io.gitlab.adhami3310.Impression'''
+    flatpak install -y flathub io.github.brunofin.Cohesion org.localsend.localsend_app io.missioncenter.MissionCenter com.rtosta.zapzap io.gitlab.adhami3310.Impression'''
     try:
         subprocess.run(comando, shell=True, check=True)
         print("Instalation Over.")
@@ -64,7 +64,7 @@ def download_worktools():
         print("Error During Installation.")
 def show_packages():
     print("\n=== UTILITARIES ===\npacman: yay, python, xorg-server, curl, libreoffice-fresh, git, python-pip, thunderbird, kitty, nemo, vlc, flatpak, zip, fuse2")
-    print("yay: shortwave, brave-bin, helium-browser-bin, bazaar\nflatpak: Cohesion, localsend, ytmdesktop, MissionCenter, Bazaar, Impression")
+    print("yay: shortwave, brave-bin, helium-browser-bin, youtube music desktop,bazaar\nflatpak: Cohesion, localsend, MissionCenter, Bazaar, Impression")
     print("\n=== GAMING ===\npacman: steam, mangohud, gamemode, prismlauncher, plasma-x11-session, kwin-x11")
     print("\n=== WORKTOOLS ===\npacman: vscode, yay, python, wget, python-pip, nmap, krita, neofetch, obs-studio, vim, vesktop, pycharm-community-edition, virtualbox, virtualbox-host-modules-arch")
     print("yay: google-earth-pro\nflatpak: it.mijorus.gearlever, com.github.tchx84.Flatseal")
