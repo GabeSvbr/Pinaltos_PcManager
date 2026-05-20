@@ -42,7 +42,7 @@ def download_utilitaries():
         print("Error Durring Instalation.")
 def download_gaming():
     comando = '''
-    sudo pacman -S --needed steam mangohud gamemode prismlauncher protonup-qt plasma-x11-session kwin-x11
+    sudo pacman -S --needed steam mangohud gamemode gnome-mines prismlauncher protonup-qt plasma-x11-session kwin-x11
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo &&
     flatpak install -y flathub com.protonvpn.www
     '''
