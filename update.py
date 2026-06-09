@@ -31,10 +31,10 @@ def ip_info():
 #============================================= DEF'S OPTION 3 =================================================================#"
 def download_utilitaries():
     comando = '''
-    sudo pacman -S --needed yay python xorg-server curl speedtest-cli libreoffice-fresh git python-pip python thunderbird kitty nemo vlc flatpak zip fuse2 &&
-    yay -S --needed shortwave helium-browser-bin bazaar brave-bin ytmdesktop &&
+    sudo pacman -S --needed yay python xorg-server curl speedtest-cli libreoffice-fresh openssh git python-pip python thunderbird kitty nemo vlc flatpak zip fuse2 &&
+    yay -S --needed shortwave helium-browser-bin bazaar brave-bin mission-center ytmdesktop &&
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo &&
-    flatpak install -y flathub io.github.brunofin.Cohesion org.localsend.localsend_app io.missioncenter.MissionCenter com.rtosta.zapzap io.gitlab.adhami3310.Impression'''
+    flatpak install -y flathub io.github.brunofin.Cohesion org.localsend.localsend_app com.rtosta.zapzap io.gitlab.adhami3310.Impression'''
     try:
         subprocess.run(comando, shell=True, check=True)
         print("Instalation Over.")
@@ -65,8 +65,8 @@ def download_worktools():
 def download_all():
     download_utilitaries();     download_worktools();    download_gaming(); Syu()
 def show_packages():
-    print("\n       === UTILITARIES ===\n--> pacman: yay, python, xorg-server, curl, libreoffice-fresh, git, python-pip, thunderbird, kitty, nemo, vlc, flatpak, zip, fuse2")
-    print("--> yay: shortwave, brave-bin, helium-browser-bin, youtube music desktop,bazaar\n--> flatpak: Cohesion, localsend, MissionCenter, Bazaar, Impression")
+    print("\n       === UTILITARIES ===\n--> pacman: yay, SSH ,python, xorg-server, curl,missioncenter ,libreoffice-fresh, git, python-pip, thunderbird, kitty, nemo, vlc, flatpak, zip, fuse2")
+    print("--> yay: shortwave, brave-bin, helium-browser-bin,, youtube music desktop,bazaar\n--> flatpak: Cohesion, localsend, Bazaar, Impression")
     print("\n       === GAMING ===\n--> pacman: steam, mangohud, gamemode, prismlauncher, plasma-x11-session, kwin-x11")
     print("\n       === WORKTOOLS ===\n--> pacman: vscode, yay, python, wget, python-pip, nmap, krita, neofetch, obs-studio, vim, vesktop, pycharm-community-edition, virtualbox, virtualbox-host-modules-arch")
     print("--> yay: google-earth-pro\n--> flatpak: it.mijorus.gearlever, com.github.tchx84.Flatseal")
