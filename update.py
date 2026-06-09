@@ -231,6 +231,7 @@ def main_menu_print():
     print("\033[1m |  \033[38;5;208m6 ➜\033[0m \033[1;36mAnime Player\033[0m                                    |\033[0m");
     print("\033[1m |  \033[38;5;208m7 ➜\033[0m \033[1;36mTerminal Options\033[0m                                |\033[0m");
     print("\033[1m |  \033[38;5;208m8 ➜\033[0m \033[1;36mFastFetch Options\033[0m                               |\033[0m");
+    print("\033[1m |  \033[38;5;208m9 ➜\033[0m \033[1;36mSSH Options\033[0m                                     |\033[0m");
     print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mQuit\033[0m                                            |\033[0m");  bar()
 def opc2_menu_print():
     clear_console();        print(f"\033[1;38;5;208m                 Configuration Menu...\033[0m"); bar()
@@ -268,22 +269,14 @@ def opc8_menu_print():
     print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mOpen Fastfetch.json\033[0m                             |\033[0m");
     print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mSetup Fastfetch json\033[0m                            |\033[0m");
     print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");  bar()
-#=============================================  Developer Menu  ===================================================================
-def developer_menu():
-    clear_console();      print(time.strftime("%H:%M"))
-    print("\033[31mTexto vermelho\033[0m")
-    print("\033[32mTexto verde\033[0m")
-    print("\033[1;34mAzul negrito\033[0m")
-    print("\033[1;38;5;120m1 ==>\033[0m \033[1;38;5;120mDownload Utilitaries Packages\033[0m\n")
-    print("\033[1;37m2 ==>\033[0m \033[1;37mDownload Gaming Packages\033[0m\n")
-    print("\033[1;34m2 ==>\033[0m \033[1;34mDownload Gaming Packages\033[0m\n")
-    while True:
-        opc = input("\033[38;5;208mOption: \033[0m")
-        if opc == "1":
-            print("1")
-        else:
-            print("Leaving")
-            time.sleep(0.2);break
+def opc9_ssh_print():
+    clear_console();    print(f"\033[1;38;5;208m                SSH Menu...\033[0m"); bar()
+    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mStatus SSH\033[0m                                      |\033[0m");
+    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mStart SSH\033[0m                                       |\033[0m");
+    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mStop SSH\033[0m                                        |\033[0m");
+    print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mRestart SSH\033[0m                                     |\033[0m");
+    print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mShow Machine IP\033[0m                                 |\033[0m");
+    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");  bar()
 #============================================= Little DEF's ======================================================================
 def bar():
     print("\033[1m#========================================================#\033[0m")
@@ -371,9 +364,19 @@ def main():
                 elif opc == 4:  open_fastfetch_config();    all_done()
                 elif opc == 5:  create_fastfetch();     all_done()
                 else:   leave_menu();  break
-#===> Extra menu's
-        elif opc == 9:      developer_menu()
+#===> SSH menu
+        elif opc == 9:
+            while True:
+                opc9_ssh_print()
+                try:    opc = get_option()
+                except ValueError:      valid();                    continue
+                if opc == 1: os.system("systemctl status sshd");confirmation()
+                elif opc == 2:  os.system("sudo systemctl start sshd");confirmation()
+                elif opc == 3:  os.system("sudo systemctl stop sshd");confirmation()
+                elif opc == 4:  os.system("sudo systemctl restart sshd")
+                elif opc == 5:  clear_console();ip_info()
+                else: leave_menu();break
+
         else:   cont1 += 1;        print("      \033[31mGoodbye...\033[0m");  time.sleep(0.5); clear_console()
 #===================================================== MAIN ====================================================#"
 main()
-
