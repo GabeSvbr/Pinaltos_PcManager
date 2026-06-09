@@ -26,12 +26,15 @@ def ip_info():
     print("\n\033[1;38;5;120m--- IP INFO ---\033[0m")
     try:
         ip = subprocess.check_output(r"ip route get 1.1.1.1 | grep -oP 'src \K\S+'", shell=True).decode().strip()
-        print(f"Local IP: {ip}"); confirmation()
+        host = subprocess.check_output("hostname", shell=True, text=True).strip()
+        print(f"Hostname: {host}")
+        print(f"Local IP: {ip}");
+        confirmation()
     except: print("Local IP: Unable to get it.")
 #============================================= DEF'S OPTION 3 =================================================================#"
 def download_utilitaries():
     comando = '''
-    sudo pacman -S --needed yay python xorg-server curl speedtest-cli libreoffice-fresh openssh yazi git python-pip python thunderbird kitty nemo vlc flatpak zip fuse2 &&
+    sudo pacman -S --needed yay python xorg-server curl speedtest-cli libreoffice-fresh openssh git python-pip python thunderbird kitty nemo vlc flatpak zip fuse2 &&
     yay -S --needed shortwave helium-browser-bin bazaar brave-bin mission-center ytmdesktop &&
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo &&
     flatpak install -y flathub io.github.brunofin.Cohesion org.localsend.localsend_app com.rtosta.zapzap io.gitlab.adhami3310.Impression'''
@@ -65,7 +68,7 @@ def download_worktools():
 def download_all():
     download_utilitaries();     download_worktools();    download_gaming(); Syu()
 def show_packages():
-    print("\n       === UTILITARIES ===\n--> pacman: yay, SSH ,python, xorg-server, curl,missioncenter ,libreoffice-fresh,yazi, git, python-pip, thunderbird, kitty, nemo, vlc, flatpak, zip, fuse2")
+    print("\n       === UTILITARIES ===\n--> pacman: yay, SSH ,python, xorg-server, curl,missioncenter ,libreoffice-fresh, git, python-pip, thunderbird, kitty, nemo, vlc, flatpak, zip, fuse2")
     print("--> yay: shortwave, brave-bin, helium-browser-bin,, youtube music desktop,bazaar\n--> flatpak: Cohesion, localsend, Bazaar, Impression")
     print("\n       === GAMING ===\n--> pacman: steam, mangohud, gamemode, prismlauncher, plasma-x11-session, kwin-x11")
     print("\n       === WORKTOOLS ===\n--> pacman: vscode, yay, python, wget, python-pip, nmap, krita, neofetch, obs-studio, vim, vesktop, pycharm-community-edition, virtualbox, virtualbox-host-modules-arch")
