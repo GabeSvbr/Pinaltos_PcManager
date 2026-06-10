@@ -1,8 +1,13 @@
 import os, subprocess, time
 
+#================================================= COLORS =====================================================================#"
+def green(text): print(f"\033[1;38;5;120m{text}\033[0m")
+def orange_head(text):print(f"\033[1;38;5;208m{text}\033[0m")
+def red_death(text):print(f"\033[31m{texto}\033[0m")
 #============================================= DEF'S OPTION 1 =================================================================#"
 def Syu():
-    clear_console();    print("\033[38;5;208m             ----- Updating System -----  \033[0m"); bar(); time.sleep(0.4)
+    orange_head("             ----- Updating System -----  ")
+    clear_console();orange_head("             ----- Updating System -----  "); bar(); time.sleep(0.4)
     comandos = [
     ("update + cleanup", "yay -Syu --noconfirm && flatpak update -y && yay -Scc --noconfirm && sudo pacman -Scc --noconfirm && sudo pacman -Rns $(pacman -Qtdq 2>/dev/null)")
     ]
@@ -14,23 +19,23 @@ def Syu():
             print(f"[erro] {nome}")
 #============================================= DEF'S OPTION 2 =================================================================#"
 def speedtest_cli():
-    print("\n\033[1;32mChecking speedtest-cli Instalation...\033[0m")
+    green(" Checking speedtest-cli Instalation...")
     subprocess.run("pacman -Qq speedtest-cli >/dev/null || sudo pacman -S --noconfirm speedtest-cli", shell=True)
-    print("\033[1;32m Inicializing Speedtest...\n\033[0m");time.sleep(0.5)
+    green(" Inicializing Speedtest...");time.sleep(0.5)
     subprocess.run(["speedtest-cli"]);      confirmation()
 def restart_network():
-    print("\n\033[1;32mRestarting Network Manager...\033[0m")
+    green(" Restarting Network Manager...")
     subprocess.run(["sudo", "systemctl", "restart", "NetworkManager"])
-    print("\n\033[1;32mWifi conection restarted.\033[0m");      confirmation()
+    green(" Wifi conection restarted.");      confirmation()
 def ip_info():
-    print("\n\033[1;38;5;120m--- IP INFO ---\033[0m")
+    green("--- IP INFO ---")
     try:
         ip = subprocess.check_output(r"ip route get 1.1.1.1 | grep -oP 'src \K\S+'", shell=True).decode().strip()
         host = subprocess.check_output("hostname", shell=True, text=True).strip()
-        print(f"Hostname: {host}")
-        print(f"Local IP: {ip}");
+        print(f"➜ Hostname: {host}")
+        print(f"➜ Local IP: {ip}");
         confirmation()
-    except: print("Local IP: Unable to get it.")
+    except: red_death("Local IP: Unable to get it.")
 #============================================= DEF'S OPTION 3 =================================================================#"
 def download_utilitaries():
     comando = '''
@@ -40,9 +45,9 @@ def download_utilitaries():
     flatpak install -y flathub io.github.brunofin.Cohesion org.localsend.localsend_app com.rtosta.zapzap io.gitlab.adhami3310.Impression'''
     try:
         subprocess.run(comando, shell=True, check=True)
-        print("Instalation Over.")
+        green("Instalation Over.")
     except subprocess.CalledProcessError:
-        print("Error Durring Instalation.")
+        green("Error Durring Instalation.")
 def download_gaming():
     comando = '''
     sudo pacman -S --needed steam mangohud gamemode gnome-mines prismlauncher protonup-qt plasma-x11-session kwin-x11
@@ -52,7 +57,7 @@ def download_gaming():
     try:
         subprocess.run(comando, shell=True, check=True)
     except subprocess.CalledProcessError:
-        print("Error")
+        red_death("Error")
 def download_worktools():
     comando = '''
     sudo pacman -S --needed yay python nmap wget python-pip krita neofetch obs-studio vim vesktop pycharm-community-edition virtualbox virtualbox-host-modules-arch code &&
@@ -62,21 +67,21 @@ def download_worktools():
     '''
     try:
         subprocess.run(comando, shell=True, check=True)
-        print("Instalation Over.")
+        green("Instalation Over.")
     except subprocess.CalledProcessError:
-        print("Error During Installation.")
+        red_death("Error During Installation.")
 def download_all():
     download_utilitaries();     download_worktools();    download_gaming(); Syu()
 def show_packages():
-    print("\n       === UTILITARIES ===\n--> pacman: yay, SSH ,python, xorg-server, curl,missioncenter ,libreoffice-fresh, git, python-pip, thunderbird, kitty, nemo, vlc, flatpak, zip, fuse2")
-    print("--> yay: shortwave, brave-bin, helium-browser-bin,, youtube music desktop,bazaar\n--> flatpak: Cohesion, localsend, Bazaar, Impression")
-    print("\n       === GAMING ===\n--> pacman: steam, mangohud, gamemode, prismlauncher, plasma-x11-session, kwin-x11")
-    print("\n       === WORKTOOLS ===\n--> pacman: vscode, yay, python, wget, python-pip, nmap, krita, neofetch, obs-studio, vim, vesktop, pycharm-community-edition, virtualbox, virtualbox-host-modules-arch")
-    print("--> yay: google-earth-pro\n--> flatpak: it.mijorus.gearlever, com.github.tchx84.Flatseal")
+    orange_head("         === UTILITARIES ===");green("--> pacman: yay, SSH ,python, xorg-server, curl,missioncenter ,libreoffice-fresh, git, python-pip, thunderbird, kitty, nemo, vlc, flatpak, zip, fuse2")
+    green("--> yay: shortwave, brave-bin, helium-browser-bin,, youtube music desktop,bazaar\n--> flatpak: Cohesion, localsend, Bazaar, Impression")
+    orange_head("\n       === GAMING ===");green("--> pacman: steam, mangohud, gamemode, prismlauncher, plasma-x11-session, kwin-x11")
+    orange_head("\n       === WORKTOOLS ===");green("--> pacman: vscode, yay, python, wget, python-pip, nmap, krita, neofetch, obs-studio, vim, vesktop, pycharm-community-edition, virtualbox, virtualbox-host-modules-arch")
+    green("--> yay: google-earth-pro\n--> flatpak: it.mijorus.gearlever, com.github.tchx84.Flatseal")
 
 #============================================= DEF'S OPTION 4 =================================================================#"
 def list_components():
-    clear_console();                print("\033[1;38;5;208m                  --- COMPONENTS ---                          \033[0m");  bar()
+    clear_console();                orange_head("                  --- COMPONENTS ---                          ");  bar()
     time_start= time.time();    os.system("inxi -F");   time_end=time.time();
     bar();print(f"\033[1;93mElapsed time: {time_start - time_end:.4f}\033[0m");bar();confirmation()
 #============================================= DEF'S OPTION 5 =================================================================#"
@@ -100,12 +105,12 @@ def run_ani_cli():
     try:
         subprocess.run(["ani-cli"], check=True)
     except FileNotFoundError:
-        print("\033[1;31mError: ani-cli not installed.\033[0m");time.sleep(0.5)
+        red_death("\033[1;31mError: ani-cli not installed.\033[0m");time.sleep(0.5)
         inst_ask = input("   \033[1;32mWould you like to install Ani=cli? (y/N)\033[0m\n:")
         if inst_ask.lower() == "y":
             subprocess.run(["yay", "-S", "ani-cli"])
         else:
-            print("\033[1;32mReturning...\033[0m");time.sleep(1)
+            green("Returning...");time.sleep(1)
     except subprocess.CalledProcessError:
         print("\033[1;31mUnable to run ani-cli.\033[0m")
         print("\033[1;32mReturning...\033[0m");time.sleep(1)
@@ -380,6 +385,6 @@ def main():
                 elif opc == 5:  clear_console();ip_info()
                 else: leave_menu();break
 
-        else:   cont1 += 1;        print("      \033[31mGoodbye...\033[0m");  time.sleep(0.5); clear_console()
+        else:   cont1 += 1; clear_console()
 #===================================================== MAIN ====================================================#"
 main()
