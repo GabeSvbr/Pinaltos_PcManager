@@ -384,7 +384,11 @@ def main():
                 elif opc == 4:  os.system("sudo systemctl restart sshd")
                 elif opc == 5:  clear_console();ip_info()
                 else: leave_menu();break
-
+#===> Fix Google earth lock
+        elif opc == 10:
+            os.system("pkill -f google-earth");     os.system("rm -f ~/.var/app/com.google.EarthPro/.googleearth/instance-running-lock")
+            clear_console(); green("Google Earth Lock Evaporated"); time.sleep(1)
+#===================================================== ELSE ====================================================#"
         else:   cont1 += 1; clear_console()
 #===================================================== MAIN ====================================================#"
 main()
