@@ -25,6 +25,21 @@ def get_option():
     return val
 def menu_spacing():
     print("\033[1m |                                                      |\033[0m")
+
+#CACHYOS SECTION
+
+def cachy_main_menu_print():
+    clear_console();        print(f"\033[1;38;5;208m  ----< {time.strftime('%H:%M')} >----< Pinalto's CachyOS Manager >-------\033[0m");    bar()
+    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mComplete System Update\033[0m                          |\033[0m")
+    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mNetwork Tools\033[0m                                   |\033[0m")
+    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mSetup Options\033[0m                                   |\033[0m")
+    print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mList Machine Components\033[0m                         |\033[0m")
+    print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mPower Options\033[0m                                   |\033[0m")
+    print("\033[1m |  \033[38;5;208m6 ➜\033[0m \033[1;36mAnime Player\033[0m                                    |\033[0m")
+    print("\033[1m |  \033[38;5;208m7 ➜\033[0m \033[1;36mTerminal Options\033[0m                                |\033[0m")
+    print("\033[1m |  \033[38;5;208m8 ➜\033[0m \033[1;36mFastFetch Options\033[0m                               |\033[0m")
+    print("\033[1m |  \033[38;5;208m9 ➜\033[0m \033[1;36mSSH Options\033[0m                                     |\033[0m")
+    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mQuit\033[0m                                            |\033[0m");  bar()
 #============================================= CACHYOS Syu =================================================================#"
 def Syu():
     orange_head("             ----- Updating System -----  ")
@@ -39,6 +54,13 @@ def Syu():
         except subprocess.CalledProcessError:
             print(f"[erro] {nome}")
 #============================================= CACHYOS Network Options =================================================================#"
+def cachy_opc2_menu_print():
+    clear_console();        print(f"\033[1;38;5;208m                 Configuration Menu...\033[0m"); bar()
+    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mNetwork Speedtest\033[0m                               |\033[0m")
+    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mRestart Wifi Network\033[0m                            |\033[0m")
+    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mShow Local IP\033[0m                                   |\033[0m")
+    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m"); bar()
+
 def speedtest_cli():
     green(" Checking speedtest-cli Instalation...")
     subprocess.run("pacman -Qq speedtest-cli >/dev/null || sudo pacman -S --noconfirm speedtest-cli", shell=True)
@@ -58,6 +80,15 @@ def ip_info():
         confirmation()
     except: red_death("Local IP: Unable to get it.")
 #============================================= CACHYOS Setup Options =================================================================#"
+def cachy_opc3_menu_print():
+    clear_console();        print(f"\033[1;38;5;208m                 Setup Menu...\033[0m"); bar()
+    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mDownload Utilitaries Packages\033[0m                   |\033[0m")
+    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mDownload Gaming Packages\033[0m                        |\033[0m")
+    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mDownload Worktools Packages\033[0m                     |\033[0m")
+    print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mDownload All Packages\033[0m                           |\033[0m")
+    print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mPackages Info:\033[0m                                  |\033[0m")
+    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");   bar()
+
 def cachy_download_utilitaries():
     comando = '''
     sudo pacman -S --needed yay python xorg-server curl speedtest-cli libreoffice-fresh openssh git python-pip python thunderbird kitty nemo vlc flatpak zip fuse2 &&
@@ -106,9 +137,16 @@ def linux_list_components():
     time_start= time.time();    os.system("inxi -F");   time_end=time.time();
     bar();print(f"\033[1;93mElapsed time: {time_start - time_end:.4f}\033[0m");bar();confirmation()
 #============================================= Linux Power Menu =================================================================#"
+def power_menu_print():
+    clear_console();        print("\033[38;5;208m             ----- Power Options -----  \033[0m"); bar()
+    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mPower Off\033[0m                                       |\033[0m");
+    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mReboot\033[0m                                          |\033[0m");
+    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mSuspend\033[0m                                         |\033[0m");
+    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");  bar()
+
 def linux_power_menu():
     while True:
-        cachy_opc5_menu_print()
+        power_menu_print()
         try:    opc = get_option()
         except ValueError:      valid();        continue
         if opc == 1:
@@ -136,6 +174,15 @@ def cachy_run_ani_cli():
         print("\033[1;31mUnable to run ani-cli.\033[0m")
         print("\033[1;32mReturning...\033[0m");time.sleep(1)
 #============================================= CACHYOS DEF'S OTION 7 =================================================================#"
+def cachy_opc7_menu_print():
+    clear_console();    print(f"\033[1;38;5;208m                 Terminal Menu...\033[0m"); bar()
+    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mOpen Fish Terminal.conf\033[0m                         |\033[0m");
+    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mSetup Custom Fish Terminal Config\033[0m               |\033[0m");
+    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mOpen Kitty Terminal Conf\033[0m                        |\033[0m");
+    print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mSetup Custom Kitty Terminal Conf\033[0m                |\033[0m");
+    print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mKitty Themes\033[0m                                    |\033[0m");
+    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");  bar()
+
 def update_config_fish():
             caminho = "/usr/share/cachyos-fish-config/cachyos-config.fish"
             linha = """alias central="python $HOME/update.py"
@@ -183,7 +230,28 @@ include current-theme.conf
         f.write(config)
 def open_kitty_conf():
     os.system("xdg-open ~/.config/kitty/kitty.conf")
+
+def cachy_terminal():
+    while True:
+                cachy_opc7_menu_print()
+                try: opc = get_option()
+                except ValueError: valid(); continue
+                if opc == 1: subprocess.run(["kate", "/usr/share/cachyos-fish-config/cachyos-config.fish"])
+                elif opc == 2: update_config_fish(); all_done()
+                elif opc == 3: open_kitty_conf()
+                elif opc == 4: configure_kitty(); all_done()
+                elif opc == 5: os.system("kitten themes")
+                else: leave_menu(); break
 #============================================= CACHYOS DEF'S OPTION 8 =================================================================#"
+def cachy_opc8_menu_print():
+    clear_console();    print(f"\033[1;38;5;208m                 FastFetch Menu...\033[0m"); bar()
+    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mFastFetch\033[0m                                       |\033[0m");
+    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mOpen FastFetch Ascii.txt\033[0m                        |\033[0m");
+    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mSetup FastFetch Ascii Art\033[0m                       |\033[0m");
+    print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mOpen Fastfetch.json\033[0m                             |\033[0m");
+    print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mSetup Fastfetch json\033[0m                            |\033[0m");
+    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");  bar()
+
 def create_fastfetch():
     caminho_dir = os.path.expanduser("~/.config/fastfetch")
     os.makedirs(caminho_dir, exist_ok=True)
@@ -247,55 +315,7 @@ def open_ascii_config():
     os.system("xdg-open ~/.config/fastfetch/ascii.txt")
 def open_fastfetch_config():
     os.system("xdg-open ~/.config/fastfetch/config.jsonc")
-#============================================= Menu's Print's =================================================================#"
-def cachy_main_menu_print():
-    clear_console();        print(f"\033[1;38;5;208m  ----< {time.strftime('%H:%M')} >----< Pinalto's CachyOS Manager >-------\033[0m");    bar()
-    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mComplete System Update\033[0m                          |\033[0m")
-    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mNetwork Tools\033[0m                                   |\033[0m")
-    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mSetup Options\033[0m                                   |\033[0m")
-    print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mList Machine Components\033[0m                         |\033[0m")
-    print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mPower Options\033[0m                                   |\033[0m")
-    print("\033[1m |  \033[38;5;208m6 ➜\033[0m \033[1;36mAnime Player\033[0m                                    |\033[0m")
-    print("\033[1m |  \033[38;5;208m7 ➜\033[0m \033[1;36mTerminal Options\033[0m                                |\033[0m")
-    print("\033[1m |  \033[38;5;208m8 ➜\033[0m \033[1;36mFastFetch Options\033[0m                               |\033[0m")
-    print("\033[1m |  \033[38;5;208m9 ➜\033[0m \033[1;36mSSH Options\033[0m                                     |\033[0m")
-    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mQuit\033[0m                                            |\033[0m");  bar()
-def cachy_opc2_menu_print():
-    clear_console();        print(f"\033[1;38;5;208m                 Configuration Menu...\033[0m"); bar()
-    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mNetwork Speedtest\033[0m                               |\033[0m")
-    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mRestart Wifi Network\033[0m                            |\033[0m")
-    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mShow Local IP\033[0m                                   |\033[0m")
-    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m"); bar()
-def cachy_opc3_menu_print():
-    clear_console();        print(f"\033[1;38;5;208m                 Setup Menu...\033[0m"); bar()
-    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mDownload Utilitaries Packages\033[0m                   |\033[0m")
-    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mDownload Gaming Packages\033[0m                        |\033[0m")
-    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mDownload Worktools Packages\033[0m                     |\033[0m")
-    print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mDownload All Packages\033[0m                           |\033[0m")
-    print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mPackages Info:\033[0m                                  |\033[0m")
-    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");   bar()
-def cachy_opc5_menu_print():
-    clear_console();        print("\033[38;5;208m             ----- Power Options -----  \033[0m"); bar()
-    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mPower Off\033[0m                                       |\033[0m");
-    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mReboot\033[0m                                          |\033[0m");
-    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mSuspend\033[0m                                         |\033[0m");
-    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");  bar()
-def cachy_opc7_menu_print():
-    clear_console();    print(f"\033[1;38;5;208m                 Terminal Menu...\033[0m"); bar()
-    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mOpen Fish Terminal.conf\033[0m                         |\033[0m");
-    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mSetup Custom Fish Terminal Config\033[0m               |\033[0m");
-    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mOpen Kitty Terminal Conf\033[0m                        |\033[0m");
-    print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mSetup Custom Kitty Terminal Conf\033[0m                |\033[0m");
-    print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mKitty Themes\033[0m                                    |\033[0m");
-    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");  bar()
-def cachy_opc8_menu_print():
-    clear_console();    print(f"\033[1;38;5;208m                 FastFetch Menu...\033[0m"); bar()
-    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mFastFetch\033[0m                                       |\033[0m");
-    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mOpen FastFetch Ascii.txt\033[0m                        |\033[0m");
-    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mSetup FastFetch Ascii Art\033[0m                       |\033[0m");
-    print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mOpen Fastfetch.json\033[0m                             |\033[0m");
-    print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mSetup Fastfetch json\033[0m                            |\033[0m");
-    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");  bar()
+#============================================= CACHY SSH =================================================================#"
 def cachy_opc9_ssh_print():
     clear_console();    print(f"\033[1;38;5;208m                SSH Menu...\033[0m"); bar()
     print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mStatus SSH\033[0m                                      |\033[0m");
@@ -304,6 +324,18 @@ def cachy_opc9_ssh_print():
     print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mRestart SSH\033[0m                                     |\033[0m");
     print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mShow Machine IP\033[0m                                 |\033[0m");
     print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");  bar()
+
+def cachy_ssh():
+     while True:
+                cachy_opc9_ssh_print()
+                try: opc = get_option()
+                except ValueError: valid(); continue
+                if opc == 1: os.system("systemctl status sshd"); confirmation()
+                elif opc == 2: os.system("sudo systemctl start sshd"); confirmation()
+                elif opc == 3: os.system("sudo systemctl stop sshd"); confirmation()
+                elif opc == 4: os.system("sudo systemctl restart sshd")
+                elif opc == 5: clear_console(); ip_info()
+                else: leave_menu(); break
 #============================================= CachyOS Navigator ====================================================================================
 def menu_cachyos():
     cont1 = 0
@@ -349,33 +381,52 @@ def menu_cachyos():
                 elif opc == 4: configure_kitty(); all_done()
                 elif opc == 5: os.system("kitten themes")
                 else: leave_menu(); break
-        elif opc == 8:
-            while True:
-                cachy_opc8_menu_print()
-                try: opc = get_option()
-                except ValueError: valid(); continue
-                if opc == 1: fastfetch(); input(":")
-                elif opc == 2: open_ascii_config(); all_done()
-                elif opc == 3: create_new_ascii(); all_done()
-                elif opc == 4: open_fastfetch_config(); all_done()
-                elif opc == 5: create_fastfetch(); all_done()
-                else: leave_menu(); break
-        elif opc == 9:
-            while True:
-                cachy_opc9_ssh_print()
-                try: opc = get_option()
-                except ValueError: valid(); continue
-                if opc == 1: os.system("systemctl status sshd"); confirmation()
-                elif opc == 2: os.system("sudo systemctl start sshd"); confirmation()
-                elif opc == 3: os.system("sudo systemctl stop sshd"); confirmation()
-                elif opc == 4: os.system("sudo systemctl restart sshd")
-                elif opc == 5: clear_console(); ip_info()
-                else: leave_menu(); break
+        elif opc == 8: cachy_terminal()
+        elif opc == 9: cachy_ssh()
         elif opc == 10:
             os.system("pkill -f google-earth")
             os.system("rm -f ~/.var/app/com.google.EarthPro/.googleearth/instance-running-lock")
             clear_console(); green("Google Earth Lock Evaporated"); time.sleep(1)
         else: cont1 += 1; clear_console()
+
+#MINT SECTION
+def mint_main_menu_print():
+    clear_console();        print(f"\033[1;38;5;208m  ----< {time.strftime('%H:%M')} >----< Pinalto's Mint Manager >-------\033[0m");    bar()
+    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mComplete System Update\033[0m                          |\033[0m")
+    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mNetwork Tools(not-working)\033[0m                      |\033[0m")
+    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mSetup Options(not-working)\033[0m                      |\033[0m")
+    print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mList Machine Components\033[0m                         |\033[0m")
+    print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mPower Options\033[0m                                   |\033[0m")
+    print("\033[1m |  \033[38;5;208m6 ➜\033[0m \033[1;36mAnime Player(not-working)\033[0m                       |\033[0m")
+    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mQuit\033[0m                                            |\033[0m");  bar()
+
+#===================================================== MINT Update ====================================================#"
+def update_all():
+    orange_head("             ----- Updating System -----  ")
+    clear_console(); orange_head("             ----- Updating System -----  "); bar(); time.sleep(0.4)
+    comandos = [
+        ("update + cleanup", "sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean -y && flatpak update -y")
+    ]
+    for nome, cmd in comandos:
+        try:
+            subprocess.run(cmd, shell=isinstance(cmd, str), check=True)
+            print(f"[ok] {nome}")
+        except subprocess.CalledProcessError:
+            print(f"[erro] {nome}")
+#============================================= MintOS Navigator ====================================================================================
+
+def mint_menu():
+    cont1 = 0
+    while cont1 == 0:
+        mint_main_menu_print()
+        try: opc = get_option()
+        except ValueError: valid(); continue
+        if opc == 1: update_all()
+        elif opc == 4: linux_list_components()
+        elif opc == 5: linux_power_menu()
+        else:cont1 += 1; clear_console();
+
+
 #===================================================== MAIN ====================================================#"
 def main():
         clear_console();orange_head("                 Pinalto's Manager...")
