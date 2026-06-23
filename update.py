@@ -54,7 +54,7 @@ def Syu():
         except subprocess.CalledProcessError:
             print(f"[erro] {nome}")
 #============================================= CACHYOS Network Options =================================================================#"
-def cachy_opc2_menu_print():
+def network_menu_print():
     clear_console();        print(f"\033[1;38;5;208m                 Configuration Menu...\033[0m"); bar()
     print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mNetwork Speedtest\033[0m                               |\033[0m")
     print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mRestart Wifi Network\033[0m                            |\033[0m")
@@ -79,6 +79,16 @@ def ip_info():
         print(f"➜ Local IP: {ip}");
         confirmation()
     except: red_death("Local IP: Unable to get it.")
+
+def cachy_network_options():
+        while True:
+            network_menu_print()
+            try: opc = get_option()
+            except ValueError: valid(); continue
+            if opc == 1: speedtest_cli()
+            elif opc == 2: restart_network()
+            elif opc == 3: ip_info()
+            else: leave_menu(); break
 #============================================= CACHYOS Setup Options =================================================================#"
 def cachy_opc3_menu_print():
     clear_console();        print(f"\033[1;38;5;208m                 Setup Menu...\033[0m"); bar()
@@ -347,15 +357,7 @@ def menu_cachyos():
             t = time.time(); clear_console(); Syu()
             bar(); print(f"\033[1;93mElapsed time: {time.time() - t:.4f}\033[0m")
             bar(); confirmation()
-        elif opc == 2:
-            while True:
-                cachy_opc2_menu_print()
-                try: opc = get_option()
-                except ValueError: valid(); continue
-                if opc == 1: speedtest_cli()
-                elif opc == 2: restart_network()
-                elif opc == 3: ip_info()
-                else: leave_menu(); break
+        elif opc == 2: cachy_network_options()
         elif opc == 3:
             while True:
                 cachy_opc3_menu_print()
@@ -413,6 +415,106 @@ def update_all():
             print(f"[ok] {nome}")
         except subprocess.CalledProcessError:
             print(f"[erro] {nome}")
+
+#===================================================== MINT Speedtest ====================================================#"
+def mint_speedtest_cli():
+    green("Checking speedtest-cli installation...")
+    subprocess.run(
+        "dpkg -s speedtest-cli >/dev/null 2>&1 || "
+        "sudo apt update && sudo apt install -y speedtest-cli",
+        shell=True
+    )
+    green("Initializing Speedtest...");time.sleep(0.5)
+    subprocess.run(["speedtest-cli"]);confirmation()
+
+def mint_network():
+        while True:
+            network_menu_print()
+            try: opc = get_option()
+            except ValueError: valid(); continue
+            if opc == 1: mint_speedtest_cli()
+            elif opc == 2: restart_network()
+            elif opc == 3: ip_info()
+            else: leave_menu(); break
+
+#===================================================== MINT Setup ====================================================#"
+
+def mint_setup_menu_print():
+    clear_console();        print(f"\033[1;38;5;208m                 Setup Menu...\033[0m"); bar()
+    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mDownload Utilitaries Packages\033[0m                   |\033[0m")
+    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mDownload Gaming Packages\033[0m                        |\033[0m")
+    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mDownload Worktools Packages\033[0m                     |\033[0m")
+    print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mDownload All Packages\033[0m                           |\033[0m")
+    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");   bar()
+    import subprocess
+
+
+def mint_download_utilitaries():
+    comando = '''
+    sudo apt update &&
+    sudo apt install -y \
+        python3 python3-pip curl speedtest-cli libreoffice \
+        openssh-server git thunderbird kitty nemo vlc \
+        flatpak zip fuse3 &&
+    flatpak remote-add --if-not-exists flathub \
+        https://flathub.org/repo/flathub.flatpakrepo &&
+    flatpak install -y flathub \
+        io.github.brunofin.Cohesion \
+        org.localsend.localsend_app \
+        com.rtosta.zapzap \
+        io.gitlab.adhami3310.Impression
+    '''
+    try:
+        subprocess.run(comando, shell=True, check=True)
+        print("Installation Over.")
+    except subprocess.CalledProcessError:
+        print("Error During Installation.")
+def mint_download_gaming():
+    comando = '''
+    sudo apt update &&
+    sudo apt install -y \
+        steam gamemode mangohud \
+        prismlauncher &&
+    flatpak remote-add --if-not-exists flathub \
+        https://flathub.org/repo/flathub.flatpakrepo &&
+    flatpak install -y flathub \
+        com.protonvpn.www
+    '''
+    try:
+        subprocess.run(comando, shell=True, check=True)
+        print("Installation Over.")
+    except subprocess.CalledProcessError:
+        print("Error During Installation.")
+def mint_download_worktools():
+    comando = '''
+    sudo apt update &&
+    sudo apt install -y \
+        python3 python3-pip wget nmap \
+        krita obs-studio vim \
+        virtualbox codeblocks &&
+    flatpak remote-add --if-not-exists flathub \
+        https://flathub.org/repo/flathub.flatpakrepo &&
+    flatpak install -y flathub \
+        com.visualstudio.code \
+        it.mijorus.gearlever \
+        com.github.tchx84.Flatseal \
+        com.discordapp.Discord
+    '''
+    try:
+        subprocess.run(comando, shell=True, check=True)
+        print("Installation Over.")
+    except subprocess.CalledProcessError:
+        print("Error During Installation.")
+def mint_setup_menu():
+    while True:
+            clear_console();mint_setup_menu_print()
+            try: opc = get_option()
+            except ValueError: valid(); continue
+            if opc == 1: mint_download_utilitaries(); all_done()
+            elif opc == 2: mint_download_gaming(); all_done()
+            elif opc == 3: mint_download_worktools(); all_done()
+            elif opc == 4: mint_download_utilitaries();mint_download_worktools;mint_download_gaming();all_done()
+            else: leave_menu(); break
 #============================================= MintOS Navigator ====================================================================================
 
 def mint_menu():
@@ -422,10 +524,10 @@ def mint_menu():
         try: opc = get_option()
         except ValueError: valid(); continue
         if opc == 1: update_all()
+        elif opc == 3:mint_setup_menu()
         elif opc == 4: linux_list_components()
         elif opc == 5: linux_power_menu()
         else:cont1 += 1; clear_console();
-
 
 #===================================================== MAIN ====================================================#"
 def main():
