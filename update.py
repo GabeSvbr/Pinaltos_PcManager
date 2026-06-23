@@ -1,5 +1,4 @@
 import os, subprocess, time
-
 #================================================= COLORS =====================================================================#"
 def green(text): print(f"\033[1;38;5;120m{text}\033[0m")
 def orange_head(text):print(f"\033[1;38;5;208m{text}\033[0m")
@@ -122,7 +121,7 @@ def linux_power_menu():
             else:       clear_console();    leave_menu()
         elif opc == 3:      os.system("systemctl suspend")
         else:       leave_menu();   break
-#============================================= CACHYOS DEF'S OPTION 6 =================================================================#"
+#============================================= CACHYOS ani-cli =================================================================#"
 def cachy_run_ani_cli():
     try:
         subprocess.run(["ani-cli"], check=True)
@@ -312,12 +311,10 @@ def menu_cachyos():
         cachy_main_menu_print()
         try: opc = get_option()
         except ValueError: valid(); continue
-
         if opc == 1:
             t = time.time(); clear_console(); Syu()
             bar(); print(f"\033[1;93mElapsed time: {time.time() - t:.4f}\033[0m")
             bar(); confirmation()
-
         elif opc == 2:
             while True:
                 cachy_opc2_menu_print()
@@ -327,7 +324,6 @@ def menu_cachyos():
                 elif opc == 2: restart_network()
                 elif opc == 3: ip_info()
                 else: leave_menu(); break
-
         elif opc == 3:
             while True:
                 cachy_opc3_menu_print()
@@ -339,7 +335,6 @@ def menu_cachyos():
                 elif opc == 4: cachy_download_all()
                 elif opc == 5: cachy_show_packages(); confirmation()
                 else: leave_menu(); break
-
         elif opc == 4: clear_console(); linux_list_components()
         elif opc == 5: clear_console(); linux_power_menu()
         elif opc == 6: cachy_run_ani_cli()
@@ -354,7 +349,6 @@ def menu_cachyos():
                 elif opc == 4: configure_kitty(); all_done()
                 elif opc == 5: os.system("kitten themes")
                 else: leave_menu(); break
-
         elif opc == 8:
             while True:
                 cachy_opc8_menu_print()
@@ -366,7 +360,6 @@ def menu_cachyos():
                 elif opc == 4: open_fastfetch_config(); all_done()
                 elif opc == 5: create_fastfetch(); all_done()
                 else: leave_menu(); break
-
         elif opc == 9:
             while True:
                 cachy_opc9_ssh_print()
@@ -378,12 +371,10 @@ def menu_cachyos():
                 elif opc == 4: os.system("sudo systemctl restart sshd")
                 elif opc == 5: clear_console(); ip_info()
                 else: leave_menu(); break
-
         elif opc == 10:
             os.system("pkill -f google-earth")
             os.system("rm -f ~/.var/app/com.google.EarthPro/.googleearth/instance-running-lock")
             clear_console(); green("Google Earth Lock Evaporated"); time.sleep(1)
-
         else: cont1 += 1; clear_console()
 #===================================================== MAIN ====================================================#"
 def main():
@@ -394,5 +385,7 @@ def main():
         opc = get_option()
         if opc == 1:
             menu_cachyos()
+        elif opc == 2:
+            mint_menu()
 
 main()
