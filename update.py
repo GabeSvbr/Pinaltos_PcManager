@@ -136,11 +136,10 @@ def cachy_download_all():
     cachy_download_utilitaries();cachy_download_worktools();cachy_download_gaming(); Syu()
 def cachy_show_packages():
     orange_head("         === UTILITARIES ===");green("--> pacman: yay, SSH ,python, xorg-server, curl,missioncenter ,libreoffice-fresh, git, python-pip, thunderbird, kitty, nemo, vlc, flatpak, zip, fuse2")
-    green("--> yay: shortwave, brave-bin, helium-browser-bin,, youtube music desktop,bazaar\n--> flatpak: Cohesion, localsend, Bazaar, Impression")
+    green("--> yay: shortwave, brave-bin, helium-browser-bin,, youtube music desktop,bazaar\n--> flatpak: Cohesion, localsend, Impression")
     orange_head("\n       === GAMING ===");green("--> pacman: steam, mangohud, gamemode, prismlauncher, plasma-x11-session, kwin-x11")
     orange_head("\n       === WORKTOOLS ===");green("--> pacman: vscode, yay, python, wget, python-pip, nmap, krita, neofetch, obs-studio, vim, vesktop, pycharm-community-edition, virtualbox, virtualbox-host-modules-arch")
     green("--> yay: google-earth-pro\n--> flatpak: it.mijorus.gearlever, com.github.tchx84.Flatseal")
-
 #============================================= Linux Components List =================================================================#"
 def linux_list_components():
     clear_console();                orange_head("                  --- COMPONENTS ---                          ");  bar()
@@ -153,7 +152,6 @@ def power_menu_print():
     print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mReboot\033[0m                                          |\033[0m");
     print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mSuspend\033[0m                                         |\033[0m");
     print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");  bar()
-
 def linux_power_menu():
     while True:
         power_menu_print()
@@ -192,7 +190,6 @@ def cachy_opc7_menu_print():
     print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mSetup Custom Kitty Terminal Conf\033[0m                |\033[0m");
     print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mKitty Themes\033[0m                                    |\033[0m");
     print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");  bar()
-
 def update_config_fish():
             caminho = "/usr/share/cachyos-fish-config/cachyos-config.fish"
             linha = """alias central="python $HOME/update.py"
@@ -215,7 +212,6 @@ alias componentes="inxi -F"
                     input=linha + "\n",
                     text=True
                 )
-
 def configure_kitty(destino=None):
     caminho = os.path.expanduser("~/.config/kitty/kitty.conf")
     config = """confirm_os_window_close 0
@@ -396,7 +392,7 @@ def mint_main_menu_print():
     clear_console();        print(f"\033[1;38;5;208m  ----< {time.strftime('%H:%M')} >----< Pinalto's Mint Manager >-------\033[0m");    bar()
     print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mComplete System Update\033[0m                          |\033[0m")
     print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mNetwork Tools(not-working)\033[0m                      |\033[0m")
-    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mSetup Options(not-working)\033[0m                      |\033[0m")
+    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mSetup Options\033[0m                                   |\033[0m")
     print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mList Machine Components\033[0m                         |\033[0m")
     print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mPower Options\033[0m                                   |\033[0m")
     print("\033[1m |  \033[38;5;208m6 ➜\033[0m \033[1;36mAnime Player(not-working)\033[0m                       |\033[0m")
@@ -436,9 +432,7 @@ def mint_network():
             elif opc == 2: restart_network()
             elif opc == 3: ip_info()
             else: leave_menu(); break
-
 #===================================================== MINT Setup ====================================================#"
-
 def mint_setup_menu_print():
     clear_console();        print(f"\033[1;38;5;208m                 Setup Menu...\033[0m"); bar()
     print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mDownload Utilitaries Packages\033[0m                   |\033[0m")
@@ -446,65 +440,27 @@ def mint_setup_menu_print():
     print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mDownload Worktools Packages\033[0m                     |\033[0m")
     print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mDownload All Packages\033[0m                           |\033[0m")
     print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");   bar()
-    import subprocess
-
+def _mint_install(apt_pkgs, flatpaks=[]):
+    apt = f"sudo apt update && sudo apt install -y {' '.join(apt_pkgs)}"
+    fp = f"flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo && flatpak install -y flathub {' '.join(flatpaks)}" if flatpaks else ""
+    try: subprocess.run(apt + (" && " + fp if fp else ""), shell=True, check=True); print("Installation Over.")
+    except subprocess.CalledProcessError: print("Error During Installation.")
 
 def mint_download_utilitaries():
-    comando = '''
-    sudo apt update &&
-    sudo apt install -y \
-        python3 python3-pip curl speedtest-cli libreoffice \
-        openssh-server git thunderbird kitty nemo vlc \
-        flatpak zip fuse3 &&
-    flatpak remote-add --if-not-exists flathub \
-        https://flathub.org/repo/flathub.flatpakrepo &&
-    flatpak install -y flathub \
-        io.github.brunofin.Cohesion \
-        org.localsend.localsend_app \
-        com.rtosta.zapzap \
-        io.gitlab.adhami3310.Impression
-    '''
-    try:
-        subprocess.run(comando, shell=True, check=True)
-        print("Installation Over.")
-    except subprocess.CalledProcessError:
-        print("Error During Installation.")
+    _mint_install(
+        ["python3","python3-pip","curl","speedtest-cli","libreoffice","openssh-server","git","kitty","nemo","vlc","flatpak","zip","fuse3"],
+        ["io.github.brunofin.Cohesion","org.localsend.localsend_app","com.rtosta.zapzap","io.gitlab.adhami3310.Impression"]
+    )
 def mint_download_gaming():
-    comando = '''
-    sudo apt update &&
-    sudo apt install -y \
-        steam gamemode mangohud \
-        prismlauncher &&
-    flatpak remote-add --if-not-exists flathub \
-        https://flathub.org/repo/flathub.flatpakrepo &&
-    flatpak install -y flathub \
-        com.protonvpn.www
-    '''
-    try:
-        subprocess.run(comando, shell=True, check=True)
-        print("Installation Over.")
-    except subprocess.CalledProcessError:
-        print("Error During Installation.")
+    _mint_install(
+        ["steam","gamemode","mangohud"],
+        ["com.protonvpn.www","io.github.kolunmi.Bazaar"]
+    )
 def mint_download_worktools():
-    comando = '''
-    sudo apt update &&
-    sudo apt install -y \
-        python3 python3-pip wget nmap \
-        krita obs-studio vim \
-        virtualbox codeblocks &&
-    flatpak remote-add --if-not-exists flathub \
-        https://flathub.org/repo/flathub.flatpakrepo &&
-    flatpak install -y flathub \
-        com.visualstudio.code \
-        it.mijorus.gearlever \
-        com.github.tchx84.Flatseal \
-        com.discordapp.Discord
-    '''
-    try:
-        subprocess.run(comando, shell=True, check=True)
-        print("Installation Over.")
-    except subprocess.CalledProcessError:
-        print("Error During Installation.")
+    _mint_install(
+        ["python3","python3-pip","wget","nmap","krita","obs-studio","vim","virtualbox","codeblocks"],
+        ["com.visualstudio.code","it.mijorus.gearlever","com.github.tchx84.Flatseal","com.discordapp.Discord"]
+    )
 def mint_setup_menu():
     while True:
             clear_console();mint_setup_menu_print()
@@ -516,7 +472,6 @@ def mint_setup_menu():
             elif opc == 4: mint_download_utilitaries();mint_download_worktools;mint_download_gaming();all_done()
             else: leave_menu(); break
 #============================================= MintOS Navigator ====================================================================================
-
 def mint_menu():
     cont1 = 0
     while cont1 == 0:
@@ -528,17 +483,16 @@ def mint_menu():
         elif opc == 4: linux_list_components()
         elif opc == 5: linux_power_menu()
         else:cont1 += 1; clear_console();
-
 #===================================================== MAIN ====================================================#"
 def main():
         clear_console();orange_head("                 Pinalto's Manager...")
         green("Select Operational System: "); bar()
-        print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mLinux CachyOS\033[0m                                   |\033[0m")
-        print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mLinux Mint XFCE\033[0m                                 |\033[0m");bar()
+        print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;34mLinux CachyOS\033[0m                                   |\033[0m")
+        print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;92mLinux Mint XFCE\033[0m                                 |\033[0m");bar()
         opc = get_option()
         if opc == 1:
             menu_cachyos()
         elif opc == 2:
             mint_menu()
-
+#===================================================== RUN ====================================================#"
 main()
