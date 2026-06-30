@@ -1,4 +1,16 @@
 import os, subprocess, time
+
+
+#================================================= SOUNDS =====================================================================#"
+def play_sound(caminho):
+    if os.path.exists(caminho):
+        subprocess.Popen(["paplay", caminho], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    else:
+        red_death("Som não encontrado: " + caminho)
+def cmenu_in():
+    play_sound("/usr/share/sounds/ocean/stereo/message-new-email.oga")
+def cmenu_out():
+    play_sound("/usr/share/sounds/ocean/stereo/game-over-loser.oga")
 #================================================= COLORS =====================================================================#"
 def green(text): print(f"\033[1;38;5;120m{text}\033[0m")
 def orange_head(text):print(f"\033[1;38;5;208m{text}\033[0m")
@@ -26,8 +38,8 @@ def get_option():
 def menu_spacing():
     print("\033[1m |                                                      |\033[0m")
 
-#CACHYOS SECTION
 
+#CACHYOS SECTION
 def cachy_main_menu_print():
     clear_console();        print(f"\033[1;38;5;208m  ----< {time.strftime('%H:%M')} >----< Pinalto's CachyOS Manager >-------\033[0m");    bar()
     print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mComplete System Update\033[0m                          |\033[0m")
@@ -42,6 +54,7 @@ def cachy_main_menu_print():
     print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mQuit\033[0m                                            |\033[0m");  bar()
 #============================================= CACHYOS Syu =================================================================#"
 def Syu():
+    cmenu_in()
     orange_head("             ----- Updating System -----  ")
     clear_console();orange_head("             ----- Updating System -----  "); bar(); time.sleep(0.4)
     comandos = [
@@ -55,7 +68,7 @@ def Syu():
             print(f"[erro] {nome}")
 #============================================= CACHYOS Network Options =================================================================#"
 def network_menu_print():
-    clear_console();        print(f"\033[1;38;5;208m                 Configuration Menu...\033[0m"); bar()
+    cmenu_in();  clear_console();        print(f"\033[1;38;5;208m                 Configuration Menu...\033[0m"); bar()
     print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mNetwork Speedtest\033[0m                               |\033[0m")
     print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mRestart Wifi Network\033[0m                            |\033[0m")
     print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mShow Local IP\033[0m                                   |\033[0m")
@@ -79,8 +92,8 @@ def ip_info():
         print(f"➜ Local IP: {ip}");
         confirmation()
     except: red_death("Local IP: Unable to get it.")
-
 def cachy_network_options():
+        cmenu_in()
         while True:
             network_menu_print()
             try: opc = get_option()
@@ -140,9 +153,21 @@ def cachy_show_packages():
     orange_head("\n       === GAMING ===");green("--> pacman: steam, mangohud, gamemode, prismlauncher, plasma-x11-session, kwin-x11")
     orange_head("\n       === WORKTOOLS ===");green("--> pacman: vscode, yay, python, wget, python-pip, nmap, krita, neofetch, obs-studio, vim, vesktop, pycharm-community-edition, virtualbox, virtualbox-host-modules-arch")
     green("--> yay: google-earth-pro\n--> flatpak: it.mijorus.gearlever, com.github.tchx84.Flatseal")
+def cachy_setup():
+    cmenu_in()
+    while True:
+        cachy_opc3_menu_print()
+        try: opc = get_option()
+        except ValueError: valid(); continue
+        if opc == 1: cachy_download_utilitaries(); all_done()
+        elif opc == 2: cachy_download_gaming(); all_done()
+        elif opc == 3: cachy_download_worktools(); all_done()
+        elif opc == 4: cachy_download_all()
+        elif opc == 5: cachy_show_packages(); confirmation()
+        else: break
 #============================================= Linux Components List =================================================================#"
 def linux_list_components():
-    clear_console();                orange_head("                  --- COMPONENTS ---                          ");  bar()
+    cmenu_in();     clear_console();                orange_head("                  --- COMPONENTS ---                          ");  bar()
     time_start= time.time();    os.system("inxi -F");   time_end=time.time();
     bar();print(f"\033[1;93mElapsed time: {time_start - time_end:.4f}\033[0m");bar();confirmation()
 #============================================= Linux Power Menu =================================================================#"
@@ -153,6 +178,7 @@ def power_menu_print():
     print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mSuspend\033[0m                                         |\033[0m");
     print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");  bar()
 def linux_power_menu():
+    cmenu_in();
     while True:
         power_menu_print()
         try:    opc = get_option()
@@ -181,8 +207,8 @@ def cachy_run_ani_cli():
     except subprocess.CalledProcessError:
         print("\033[1;31mUnable to run ani-cli.\033[0m")
         print("\033[1;32mReturning...\033[0m");time.sleep(1)
-#============================================= CACHYOS DEF'S OTION 7 =================================================================#"
-def cachy_opc7_menu_print():
+#============================================= CACHYOS Terminal =================================================================#"
+def cachy_terminal_menu_print():
     clear_console();    print(f"\033[1;38;5;208m                 Terminal Menu...\033[0m"); bar()
     print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mOpen Fish Terminal.conf\033[0m                         |\033[0m");
     print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mSetup Custom Fish Terminal Config\033[0m               |\033[0m");
@@ -238,8 +264,9 @@ def open_kitty_conf():
     os.system("xdg-open ~/.config/kitty/kitty.conf")
 
 def cachy_terminal():
+    cmenu_in()
     while True:
-                cachy_opc7_menu_print()
+                cachy_terminal_menu_print()
                 try: opc = get_option()
                 except ValueError: valid(); continue
                 if opc == 1: subprocess.run(["kate", "/usr/share/cachyos-fish-config/cachyos-config.fish"])
@@ -248,7 +275,7 @@ def cachy_terminal():
                 elif opc == 4: configure_kitty(); all_done()
                 elif opc == 5: os.system("kitten themes")
                 else: leave_menu(); break
-#============================================= CACHYOS DEF'S OPTION 8 =================================================================#"
+#============================================= CACHYOS FASTFETCH =================================================================#"
 def cachy_opc8_menu_print():
     clear_console();    print(f"\033[1;38;5;208m                 FastFetch Menu...\033[0m"); bar()
     print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mFastFetch\033[0m                                       |\033[0m");
@@ -257,7 +284,6 @@ def cachy_opc8_menu_print():
     print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mOpen Fastfetch.json\033[0m                             |\033[0m");
     print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mSetup Fastfetch json\033[0m                            |\033[0m");
     print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");  bar()
-
 def create_fastfetch():
     caminho_dir = os.path.expanduser("~/.config/fastfetch")
     os.makedirs(caminho_dir, exist_ok=True)
@@ -321,8 +347,20 @@ def open_ascii_config():
     os.system("xdg-open ~/.config/fastfetch/ascii.txt")
 def open_fastfetch_config():
     os.system("xdg-open ~/.config/fastfetch/config.jsonc")
+def cachy_fastfetch():
+    cmenu_in()
+    while True:
+        cachy_opc8_menu_print()
+        try: opc = get_option()
+        except ValueError: valid(); continue
+        if opc == 1: os.system("fastfetch");confirmation();
+        elif opc == 2: open_ascii_config()
+        elif opc == 3: create_new_ascii()
+        elif opc == 4: open_fastfetch_config()
+        elif opc == 5: create_fastfetch()
+        else: leave_menu(); break
 #============================================= CACHY SSH =================================================================#"
-def cachy_opc9_ssh_print():
+def cachy_ssh_print():
     clear_console();    print(f"\033[1;38;5;208m                SSH Menu...\033[0m"); bar()
     print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mStatus SSH\033[0m                                      |\033[0m");
     print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mStart SSH\033[0m                                       |\033[0m");
@@ -332,8 +370,9 @@ def cachy_opc9_ssh_print():
     print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");  bar()
 
 def cachy_ssh():
-     while True:
-                cachy_opc9_ssh_print()
+    cmenu_in();
+    while True:
+                cachy_ssh_print()
                 try: opc = get_option()
                 except ValueError: valid(); continue
                 if opc == 1: os.system("systemctl status sshd"); confirmation()
@@ -352,40 +391,23 @@ def menu_cachyos():
         if opc == 1:
             t = time.time(); clear_console(); Syu()
             bar(); print(f"\033[1;93mElapsed time: {time.time() - t:.4f}\033[0m")
-            bar(); confirmation()
-        elif opc == 2: cachy_network_options()
-        elif opc == 3:
-            while True:
-                cachy_opc3_menu_print()
-                try: opc = get_option()
-                except ValueError: valid(); continue
-                if opc == 1: cachy_download_utilitaries(); all_done()
-                elif opc == 2: cachy_download_gaming(); all_done()
-                elif opc == 3: cachy_download_worktools(); all_done()
-                elif opc == 4: cachy_download_all()
-                elif opc == 5: cachy_show_packages(); confirmation()
-                else: leave_menu(); break
-        elif opc == 4: clear_console(); linux_list_components()
-        elif opc == 5: clear_console(); linux_power_menu()
-        elif opc == 6: cachy_run_ani_cli()
-        elif opc == 7:
-            while True:
-                cachy_opc7_menu_print()
-                try: opc = get_option()
-                except ValueError: valid(); continue
-                if opc == 1: subprocess.run(["kate", "/usr/share/cachyos-fish-config/cachyos-config.fish"])
-                elif opc == 2: update_config_fish(); all_done()
-                elif opc == 3: open_kitty_conf()
-                elif opc == 4: configure_kitty(); all_done()
-                elif opc == 5: os.system("kitten themes")
-                else: leave_menu(); break
-        elif opc == 8: cachy_terminal()
-        elif opc == 9: cachy_ssh()
-        elif opc == 10:
-            os.system("pkill -f google-earth")
-            os.system("rm -f ~/.var/app/com.google.EarthPro/.googleearth/instance-running-lock")
-            clear_console(); green("Google Earth Lock Evaporated"); time.sleep(1)
-        else: cont1 += 1; clear_console()
+            bar(); confirmation();cmenu_out()
+        elif opc == 2: cachy_network_options();cmenu_out()
+        elif opc == 3: cachy_setup();cmenu_out()
+        elif opc == 4: linux_list_components();cmenu_out()
+        elif opc == 5: linux_power_menu();cmenu_out()
+        elif opc == 6: cachy_run_ani_cli();cmenu_out()
+        elif opc == 7: cachy_terminal();cmenu_out()
+        elif opc == 8: cachy_fastfetch();cmenu_out()
+        elif opc == 9: cachy_ssh();cmenu_out()
+        else: cont1 += 1; clear_console();cmenu_out()
+
+
+
+
+
+
+
 
 #MINT SECTION
 def mint_main_menu_print():
@@ -469,7 +491,7 @@ def mint_setup_menu():
             if opc == 1: mint_download_utilitaries(); all_done()
             elif opc == 2: mint_download_gaming(); all_done()
             elif opc == 3: mint_download_worktools(); all_done()
-            elif opc == 4: mint_download_utilitaries();mint_download_worktools;mint_download_gaming();all_done()
+            elif opc == 4: mint_download_utilitaries();mint_download_worktools();mint_download_gaming();all_done()
             else: leave_menu(); break
 #============================================= MintOS Navigator ====================================================================================
 def mint_menu():
