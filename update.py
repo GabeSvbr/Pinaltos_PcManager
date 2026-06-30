@@ -1,6 +1,5 @@
 import os, subprocess, time
 
-
 #================================================= SOUNDS =====================================================================#"
 def play_sound(caminho):
     if os.path.exists(caminho):
@@ -8,9 +7,13 @@ def play_sound(caminho):
     else:
         red_death("Som não encontrado: " + caminho)
 def cmenu_in():
-    play_sound("/usr/share/sounds/ocean/stereo/message-new-email.oga")
+    play_sound("/usr/share/sounds/ocean/stereo/complete-media-burn.oga")
+def cmenu_in2():
+    play_sound("/usr/share/sounds/ocean/stereo/service-logout.oga")
 def cmenu_out():
     play_sound("/usr/share/sounds/ocean/stereo/game-over-loser.oga")
+def cmenu_out2():
+    play_sound("/usr/share/sounds/ocean/stereo/completion-fail.oga")
 #================================================= COLORS =====================================================================#"
 def green(text): print(f"\033[1;38;5;120m{text}\033[0m")
 def orange_head(text):print(f"\033[1;38;5;208m{text}\033[0m")
@@ -29,7 +32,7 @@ def confirmation_power():
 def leave_menu():
     print("\033[1;32mReturning...\033[0m"); time.sleep(0.25)
 def all_done():
-    print("\033[32mAll Done!\033[0m");         time.sleep(1)
+    print("\033[32mAll Done!\033[0m");         time.sleep(0.25)
 def valid():
     print("  \033[31mSelect Valid Option...\033[0m");   time.sleep(0.5)
 def get_option():
@@ -101,7 +104,7 @@ def cachy_network_options():
             if opc == 1: speedtest_cli()
             elif opc == 2: restart_network()
             elif opc == 3: ip_info()
-            else: leave_menu(); break
+            else: cmenu_out(); break
 #============================================= CACHYOS Setup Options =================================================================#"
 def cachy_opc3_menu_print():
     clear_console();        print(f"\033[1;38;5;208m                 Setup Menu...\033[0m"); bar()
@@ -164,12 +167,12 @@ def cachy_setup():
         elif opc == 3: cachy_download_worktools(); all_done()
         elif opc == 4: cachy_download_all()
         elif opc == 5: cachy_show_packages(); confirmation()
-        else: break
+        else: cmenu_out();break
 #============================================= Linux Components List =================================================================#"
 def linux_list_components():
     cmenu_in();     clear_console();                orange_head("                  --- COMPONENTS ---                          ");  bar()
     time_start= time.time();    os.system("inxi -F");   time_end=time.time();
-    bar();print(f"\033[1;93mElapsed time: {time_start - time_end:.4f}\033[0m");bar();confirmation()
+    bar();print(f"\033[1;93mElapsed time: {time_start - time_end:.4f}\033[0m");bar();confirmation();cmenu_out()
 #============================================= Linux Power Menu =================================================================#"
 def power_menu_print():
     clear_console();        print("\033[38;5;208m             ----- Power Options -----  \033[0m"); bar()
@@ -192,7 +195,7 @@ def linux_power_menu():
             if opc == "y":      os.system("reboot")
             else:       clear_console();    leave_menu()
         elif opc == 3:      os.system("systemctl suspend")
-        else:       leave_menu();   break
+        else: cmenu_out();   break
 #============================================= CACHYOS ani-cli =================================================================#"
 def cachy_run_ani_cli():
     try:
@@ -274,7 +277,7 @@ def cachy_terminal():
                 elif opc == 3: open_kitty_conf()
                 elif opc == 4: configure_kitty(); all_done()
                 elif opc == 5: os.system("kitten themes")
-                else: leave_menu(); break
+                else: cmenu_out(); break
 #============================================= CACHYOS FASTFETCH =================================================================#"
 def cachy_opc8_menu_print():
     clear_console();    print(f"\033[1;38;5;208m                 FastFetch Menu...\033[0m"); bar()
@@ -358,7 +361,7 @@ def cachy_fastfetch():
         elif opc == 3: create_new_ascii()
         elif opc == 4: open_fastfetch_config()
         elif opc == 5: create_fastfetch()
-        else: leave_menu(); break
+        else: cmenu_out(); break
 #============================================= CACHY SSH =================================================================#"
 def cachy_ssh_print():
     clear_console();    print(f"\033[1;38;5;208m                SSH Menu...\033[0m"); bar()
@@ -380,10 +383,23 @@ def cachy_ssh():
                 elif opc == 3: os.system("sudo systemctl stop sshd"); confirmation()
                 elif opc == 4: os.system("sudo systemctl restart sshd")
                 elif opc == 5: clear_console(); ip_info()
-                else: leave_menu(); break
+                else: cmenu_out(); break
+#============================================= CachyOS menu_debug ====================================================================================
+def menu_debug():
+    while True:
+        clear_console();print(f"1 - cmenu_in\n2 - cmenu_in2\n3 - cmenu_out\n4 - cmenu_out2")
+        opc=get_option()
+        if opc == 1: cmenu_in()
+        elif opc == 2: cmenu_in2()
+        elif opc == 3: cmenu_out()
+        elif opc == 4: cmenu_out2()
+        else: cmenu_out();break
+
+
 #============================================= CachyOS Navigator ====================================================================================
 def menu_cachyos():
     cont1 = 0
+    cmenu_in2()
     while cont1 == 0:
         cachy_main_menu_print()
         try: opc = get_option()
@@ -392,15 +408,16 @@ def menu_cachyos():
             t = time.time(); clear_console(); Syu()
             bar(); print(f"\033[1;93mElapsed time: {time.time() - t:.4f}\033[0m")
             bar(); confirmation();cmenu_out()
-        elif opc == 2: cachy_network_options();cmenu_out()
-        elif opc == 3: cachy_setup();cmenu_out()
-        elif opc == 4: linux_list_components();cmenu_out()
-        elif opc == 5: linux_power_menu();cmenu_out()
-        elif opc == 6: cachy_run_ani_cli();cmenu_out()
-        elif opc == 7: cachy_terminal();cmenu_out()
-        elif opc == 8: cachy_fastfetch();cmenu_out()
-        elif opc == 9: cachy_ssh();cmenu_out()
-        else: cont1 += 1; clear_console();cmenu_out()
+        elif opc == 2: cachy_network_options();
+        elif opc == 3: cachy_setup();
+        elif opc == 4: linux_list_components();
+        elif opc == 5: linux_power_menu();
+        elif opc == 6: cachy_run_ani_cli();
+        elif opc == 7: cachy_terminal();
+        elif opc == 8: cachy_fastfetch();
+        elif opc == 9: cachy_ssh();
+        elif opc == 10: menu_debug();
+        else: cont1 += 1; clear_console(); cmenu_out2()
 
 
 
