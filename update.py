@@ -1,11 +1,12 @@
-import os, subprocess, time
+import os, subprocess, time, webbrowser
+
 
 #================================================= SOUNDS =====================================================================#"
 def play_sound(caminho):
     if os.path.exists(caminho):
         subprocess.Popen(["paplay", caminho], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     else:
-        red_death("Som não encontrado: " + caminho)
+        red_death("File Not Found: " + caminho)
 def cmenu_in():
     play_sound("/usr/share/sounds/ocean/stereo/complete-media-burn.oga")
 def cmenu_in2():
@@ -22,7 +23,7 @@ def red_death(text):print(f"\033[31m{text}\033[0m")
 def bar():
     print("\033[1m#========================================================#\033[0m")
 def clear_console():
-    os.system("clear")
+    os.system("cls" if os.name == "nt" else "clear")
 def fastfetch():
     os.system("fastfetch")
 def confirmation():
@@ -53,7 +54,8 @@ def cachy_main_menu_print():
     print("\033[1m |  \033[38;5;208m6 ➜\033[0m \033[1;36mAnime Player\033[0m                                    |\033[0m")
     print("\033[1m |  \033[38;5;208m7 ➜\033[0m \033[1;36mTerminal Options\033[0m                                |\033[0m")
     print("\033[1m |  \033[38;5;208m8 ➜\033[0m \033[1;36mFastFetch Options\033[0m                               |\033[0m")
-    print("\033[1m |  \033[38;5;208m9 ➜\033[0m \033[1;36mSSH Options\033[0m                                     |\033[0m")
+    print("\033[1m |  \033[38;5;208m9 ➜\033[0m \033[1;36mGithub Repos\033[0m                                    |\033[0m")
+    print("\033[1m |  \033[38;5;208m10➜\033[0m \033[1;36mSSH Options\033[0m                                     |\033[0m")
     print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mQuit\033[0m                                            |\033[0m");  bar()
 #============================================= CACHYOS Syu =================================================================#"
 def Syu():
@@ -384,6 +386,23 @@ def cachy_ssh():
                 elif opc == 4: os.system("sudo systemctl restart sshd")
                 elif opc == 5: clear_console(); ip_info()
                 else: cmenu_out(); break
+
+#============================================= Repo Manager ====================================================================================
+def repo_manager_print():
+    clear_console();    print(f"\033[1;38;5;208m                Github Repos...\033[0m"); bar()
+    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mSilent Hill Native PC (linux/win)\033[0m               |\033[0m");
+    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mSteam Achivement Unlocker\033[0m                       |\033[0m");
+    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mPinalto's PcManager\033[0m                             |\033[0m");
+    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");  bar()
+def repo_manager():
+    cmenu_in()
+    while True:
+        repo_manager_print()
+        opc = get_option()
+        if opc == 1:    webbrowser.open("https://github.com/SlickAmogus/silent-hill-pc-nightly")
+        elif opc == 2:  webbrowser.open("https://github.com/asdfghj1237890/SteamAchievementManager-Enhanced")
+        elif opc == 3:  webbrowser.open("https://github.com/GabeSvbr/Pinaltos_PcManager")
+        else: break
 #============================================= CachyOS menu_debug ====================================================================================
 def menu_debug():
     while True:
@@ -415,10 +434,10 @@ def menu_cachyos():
         elif opc == 6: cachy_run_ani_cli();
         elif opc == 7: cachy_terminal();
         elif opc == 8: cachy_fastfetch();
-        elif opc == 9: cachy_ssh();
-        elif opc == 10: menu_debug();
+        elif opc == 9: repo_manager();
+        elif opc == 10:cachy_ssh();
+        elif opc == 99: menu_debug();
         else: cont1 += 1; clear_console(); cmenu_out2()
-
 
 
 
