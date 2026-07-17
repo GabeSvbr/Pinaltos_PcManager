@@ -1,20 +1,23 @@
 import os, subprocess, time, webbrowser
 
-
 #================================================= SOUNDS =====================================================================#"
-def play_sound(caminho):
-    if os.path.exists(caminho):
-        subprocess.Popen(["paplay", caminho], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    else:
-        red_death("File Not Found: " + caminho)
+def play_sound(file, vol=100):
+    if os.path.exists(file):
+        subprocess.Popen(
+            ["paplay", f"--volume={vol*65536//100}", file],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
 def cmenu_in():
     play_sound("/usr/share/sounds/ocean/stereo/complete-media-burn.oga")
 def cmenu_in2():
-    play_sound("/usr/share/sounds/ocean/stereo/service-logout.oga")
+    play_sound("/usr/share/sounds/ocean/stereo/service-logout.oga",80)
 def cmenu_out():
     play_sound("/usr/share/sounds/ocean/stereo/game-over-loser.oga")
 def cmenu_out2():
     play_sound("/usr/share/sounds/ocean/stereo/completion-fail.oga")
+def cdots():
+    play_sound("/usr/share/sounds/ocean/stereo/completion-success.oga",70)
 #================================================= COLORS =====================================================================#"
 def green(text): print(f"\033[1;38;5;120m{text}\033[0m")
 def orange_head(text):print(f"\033[1;38;5;208m{text}\033[0m")
@@ -52,7 +55,7 @@ def cachy_main_menu_print():
     print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mList Machine Components\033[0m                         |\033[0m")
     print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mPower Options\033[0m                                   |\033[0m")
     print("\033[1m |  \033[38;5;208m6 ➜\033[0m \033[1;36mAnime Player\033[0m                                    |\033[0m")
-    print("\033[1m |  \033[38;5;208m7 ➜\033[0m \033[1;36mTerminal Options\033[0m                                |\033[0m")
+    print("\033[1m |  \033[38;5;208m7 ➜\033[0m \033[1;36mTerminal/Fastfetch Options\033[0m                      |\033[0m")
     print("\033[1m |  \033[38;5;208m8 ➜\033[0m \033[1;36mFastFetch Options\033[0m                               |\033[0m")
     print("\033[1m |  \033[38;5;208m9 ➜\033[0m \033[1;36mGithub Repos\033[0m                                    |\033[0m")
     print("\033[1m |  \033[38;5;208m10➜\033[0m \033[1;36mSSH Options\033[0m                                     |\033[0m")
@@ -118,7 +121,7 @@ def cachy_opc3_menu_print():
     print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");   bar()
 def cachy_download_utilitaries():
     comando = '''
-    sudo pacman -S --needed yay python xorg-server curl speedtest-cli libreoffice-fresh openssh git python-pip python thunderbird kitty nemo vlc flatpak zip fuse2 &&
+    sudo pacman -S --needed yay python xorg-server curl speedtest-cli libreoffice-fresh openssh git python-pip python thunderbird nemo vlc flatpak zip fuse2 &&
     yay -S --needed shortwave helium-browser-bin bazaar brave-bin mission-center ytmdesktop &&
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo &&
     flatpak install -y flathub io.github.brunofin.Cohesion org.localsend.localsend_app com.rtosta.zapzap io.gitlab.adhami3310.Impression'''
@@ -152,7 +155,7 @@ def cachy_download_worktools():
 def cachy_download_all():
     cachy_download_utilitaries();cachy_download_worktools();cachy_download_gaming(); Syu()
 def cachy_show_packages():
-    orange_head("         === UTILITARIES ===");green("--> pacman: yay, SSH ,python, xorg-server, curl,missioncenter ,libreoffice-fresh, git, python-pip, thunderbird, kitty, nemo, vlc, flatpak, zip, fuse2")
+    orange_head("         === UTILITARIES ===");green("--> pacman: yay, SSH ,python, xorg-server, curl,missioncenter ,libreoffice-fresh, git, python-pip, thunderbird, nemo, vlc, flatpak, zip, fuse2")
     green("--> yay: shortwave, brave-bin, helium-browser-bin,, youtube music desktop,bazaar\n--> flatpak: Cohesion, localsend, Impression")
     orange_head("\n       === GAMING ===");green("--> pacman: steam, mangohud, gamemode, prismlauncher, plasma-x11-session, kwin-x11")
     orange_head("\n       === WORKTOOLS ===");green("--> pacman: vscode, yay, python, wget, python-pip, nmap, krita, neofetch, obs-studio, vim, vesktop, pycharm-community-edition, virtualbox, virtualbox-host-modules-arch")
@@ -211,14 +214,16 @@ def cachy_run_ani_cli():
     except subprocess.CalledProcessError:
         print("\033[1;31mUnable to run ani-cli.\033[0m")
         print("\033[1;32mReturning...\033[0m");time.sleep(1)
-#============================================= CACHYOS Terminal =================================================================#"
+#============================================= CACHYOS Terminal/Fastfetch =======================================================#"
 def cachy_terminal_menu_print():
-    clear_console();    print(f"\033[1;38;5;208m                 Terminal Menu...\033[0m"); bar()
+    clear_console();    print(f"\033[1;38;5;208m             Terminal Menu...(Fish)\033[0m"); bar()
     print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mOpen Fish Terminal.conf\033[0m                         |\033[0m");
     print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mSetup Custom Fish Terminal Config\033[0m               |\033[0m");
-    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mOpen Kitty Terminal Conf\033[0m                        |\033[0m");
-    print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mSetup Custom Kitty Terminal Conf\033[0m                |\033[0m");
-    print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mKitty Themes\033[0m                                    |\033[0m");
+    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mFastFetch\033[0m                                       |\033[0m");
+    print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mSetup Fastfetch json\033[0m                            |\033[0m");
+    print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mSetup Fastfetch Ascii Art\033[0m                       |\033[0m");
+    print("\033[1m |  \033[38;5;208m6 ➜\033[0m \033[1;36mOpen Fastfetch.json\033[0m                             |\033[0m");
+    print("\033[1m |  \033[38;5;208m7 ➜\033[0m \033[1;36mOpen Ascii art.txt\033[0m                              |\033[0m");
     print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");  bar()
 def update_config_fish():
             caminho = "/usr/share/cachyos-fish-config/cachyos-config.fish"
@@ -242,52 +247,6 @@ alias componentes="inxi -F"
                     input=linha + "\n",
                     text=True
                 )
-def configure_kitty(destino=None):
-    caminho = os.path.expanduser("~/.config/kitty/kitty.conf")
-    config = """confirm_os_window_close 0
-cursor_trail 1
-cursor_shape beam
-cursor_beam_thickness 4
-cursor_stop_blinking_after 0
-cursor_shape_unfocused unchanged
-font_size 11.0
-cursor_blink_interval 0.5
-window_padding_width 25
-font_family JetBrainsMono Nerd Font
-bold_font auto
-italic_font auto
-bold_italic_font auto
-background_opacity 0.9
-hide_window_decorations yes
-include current-theme.conf
-"""
-    os.makedirs(os.path.dirname(caminho), exist_ok=True)
-    with open(caminho, "w") as f:  # 🔥 "w" apaga tudo
-        f.write(config)
-def open_kitty_conf():
-    os.system("xdg-open ~/.config/kitty/kitty.conf")
-
-def cachy_terminal():
-    cmenu_in()
-    while True:
-                cachy_terminal_menu_print()
-                try: opc = get_option()
-                except ValueError: valid(); continue
-                if opc == 1: subprocess.run(["kate", "/usr/share/cachyos-fish-config/cachyos-config.fish"])
-                elif opc == 2: update_config_fish(); all_done()
-                elif opc == 3: open_kitty_conf()
-                elif opc == 4: configure_kitty(); all_done()
-                elif opc == 5: os.system("kitten themes")
-                else: cmenu_out(); break
-#============================================= CACHYOS FASTFETCH =================================================================#"
-def cachy_opc8_menu_print():
-    clear_console();    print(f"\033[1;38;5;208m                 FastFetch Menu...\033[0m"); bar()
-    print("\033[1m |  \033[38;5;208m1 ➜\033[0m \033[1;36mFastFetch\033[0m                                       |\033[0m");
-    print("\033[1m |  \033[38;5;208m2 ➜\033[0m \033[1;36mOpen FastFetch Ascii.txt\033[0m                        |\033[0m");
-    print("\033[1m |  \033[38;5;208m3 ➜\033[0m \033[1;36mSetup FastFetch Ascii Art\033[0m                       |\033[0m");
-    print("\033[1m |  \033[38;5;208m4 ➜\033[0m \033[1;36mOpen Fastfetch.json\033[0m                             |\033[0m");
-    print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mSetup Fastfetch json\033[0m                            |\033[0m");
-    print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");  bar()
 def create_fastfetch():
     caminho_dir = os.path.expanduser("~/.config/fastfetch")
     os.makedirs(caminho_dir, exist_ok=True)
@@ -351,18 +310,20 @@ def open_ascii_config():
     os.system("xdg-open ~/.config/fastfetch/ascii.txt")
 def open_fastfetch_config():
     os.system("xdg-open ~/.config/fastfetch/config.jsonc")
-def cachy_fastfetch():
+def cachy_terminal():
     cmenu_in()
     while True:
-        cachy_opc8_menu_print()
-        try: opc = get_option()
-        except ValueError: valid(); continue
-        if opc == 1: os.system("fastfetch");confirmation();
-        elif opc == 2: open_ascii_config()
-        elif opc == 3: create_new_ascii()
-        elif opc == 4: open_fastfetch_config()
-        elif opc == 5: create_fastfetch()
-        else: cmenu_out(); break
+                cachy_terminal_menu_print()
+                try: opc = get_option()
+                except ValueError: valid(); continue
+                if opc == 1: subprocess.run(["kate", "/usr/share/cachyos-fish-config/cachyos-config.fish"])
+                elif opc == 2: update_config_fish(); all_done()
+                elif opc == 3: os.system("fastfetch");confirmation();
+                elif opc == 4: create_fastfetch()
+                elif opc == 5: create_new_ascii()
+                elif opc == 6: open_fastfetch_config()
+                elif opc == 7: open_ascii_config()
+                else: cmenu_out(); break
 #============================================= CACHY SSH =================================================================#"
 def cachy_ssh_print():
     clear_console();    print(f"\033[1;38;5;208m                SSH Menu...\033[0m"); bar()
@@ -405,12 +366,13 @@ def repo_manager():
 #============================================= CachyOS menu_debug ====================================================================================
 def menu_debug():
     while True:
-        clear_console();print(f"1 - cmenu_in\n2 - cmenu_in2\n3 - cmenu_out\n4 - cmenu_out2")
+        clear_console();print(f"1 - cmenu_in\n2 - cmenu_in2\n3 - cmenu_out\n4 - cmenu_out2\n5 - cdots")
         opc=get_option()
         if opc == 1: cmenu_in()
         elif opc == 2: cmenu_in2()
         elif opc == 3: cmenu_out()
         elif opc == 4: cmenu_out2()
+        elif opc == 5: cdots()
         else: cmenu_out();break
 #============================================= CachyOS Navigator ====================================================================================
 def menu_cachyos():
@@ -443,6 +405,7 @@ def main():
         bar()
         print(f"\033[1m |\033[1;34mLoading CachyOS Version{'.' * i}\033[0m")
         bar()
+        cdots()
         time.sleep(0.20)
     menu_cachyos()
 #===================================================== RUN ====================================================#"
