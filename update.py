@@ -9,11 +9,11 @@ def play_sound(file, vol=100):
             stderr=subprocess.DEVNULL
         )
 def cmenu_in():
-    play_sound("/usr/share/sounds/ocean/stereo/complete-media-burn.oga")
+    play_sound("/usr/share/sounds/ocean/stereo/complete-media-burn.oga",75)
 def cmenu_in2():
     play_sound("/usr/share/sounds/ocean/stereo/service-logout.oga",80)
 def cmenu_out():
-    play_sound("/usr/share/sounds/ocean/stereo/game-over-loser.oga")
+    play_sound("/usr/share/sounds/ocean/stereo/game-over-loser.oga",85)
 def cmenu_out2():
     play_sound("/usr/share/sounds/ocean/stereo/completion-fail.oga")
 def cdots():
@@ -56,9 +56,8 @@ def cachy_main_menu_print():
     print("\033[1m |  \033[38;5;208m5 ➜\033[0m \033[1;36mPower Options\033[0m                                   |\033[0m")
     print("\033[1m |  \033[38;5;208m6 ➜\033[0m \033[1;36mAnime Player\033[0m                                    |\033[0m")
     print("\033[1m |  \033[38;5;208m7 ➜\033[0m \033[1;36mTerminal/Fastfetch Options\033[0m                      |\033[0m")
-    print("\033[1m |  \033[38;5;208m8 ➜\033[0m \033[1;36mFastFetch Options\033[0m                               |\033[0m")
-    print("\033[1m |  \033[38;5;208m9 ➜\033[0m \033[1;36mGithub Repos\033[0m                                    |\033[0m")
-    print("\033[1m |  \033[38;5;208m10➜\033[0m \033[1;36mSSH Options\033[0m                                     |\033[0m")
+    print("\033[1m |  \033[38;5;208m8 ➜\033[0m \033[1;36mGithub Repos\033[0m                                    |\033[0m")
+    print("\033[1m |  \033[38;5;208m9➜\033[0m \033[1;36mSSH Options\033[0m                                      |\033[0m")
     print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mQuit\033[0m                                            |\033[0m");  bar()
 #============================================= CACHYOS Syu =================================================================#"
 def Syu():
@@ -121,31 +120,31 @@ def cachy_opc3_menu_print():
     print("\033[1m |  \033[38;5;208m0 ➜\033[0m \033[1;31mLeave\033[0m                                           |\033[0m");   bar()
 def cachy_download_utilitaries():
     comando = '''
-    sudo pacman -S --needed yay python xorg-server curl speedtest-cli libreoffice-fresh openssh git python-pip python thunderbird nemo vlc flatpak zip fuse2 &&
-    yay -S --needed shortwave helium-browser-bin bazaar brave-bin mission-center ytmdesktop &&
+    sudo pacman -S --needed yay git curl openssh python python-pip xorg-server flatpak zip fuse2 nemo libreoffice-fresh thunderbird vlc speedtest-cli &&
+    yay -S --needed helium-browser-bin bazaar &&
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo &&
-    flatpak install -y flathub io.github.brunofin.Cohesion org.localsend.localsend_app com.rtosta.zapzap io.gitlab.adhami3310.Impression'''
+    flatpak install -y flathub com.github.tchx84.Flatseal it.mijorus.gearlever flathub com.rtosta.zapzap io.gitlab.adhami3310.Impression io.github.brunofin.Cohesion'''
     try:
         subprocess.run(comando, shell=True, check=True)
         green("Instalation Over.")
     except subprocess.CalledProcessError:
-        green("Error Durring Instalation.")
+        red_death("Error Durring Instalation.")
 def cachy_download_gaming():
     comando = '''
-    sudo pacman -S --needed steam mangohud gamemode gnome-mines prismlauncher protonup-qt plasma-x11-session kwin-x11
+    sudo pacman -S --needed steam gamemode mangohud protonup-qt plasma-x11-session kwin-x11 prismlauncher gnome-mines protonup-qt
+    yay -S --needed ytmdesktop &&
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo &&
     flatpak install -y flathub com.protonvpn.www
     '''
     try:
         subprocess.run(comando, shell=True, check=True)
+        green("Instalation Over.")
     except subprocess.CalledProcessError:
         red_death("Error")
 def cachy_download_worktools():
     comando = '''
-    sudo pacman -S --needed yay python nmap wget python-pip krita neofetch obs-studio vim vesktop pycharm-community-edition virtualbox virtualbox-host-modules-arch code &&
-    yay -S --needed google-earth-pro &&
-    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo &&
-    flatpak install -y flathub it.mijorus.gearlever com.github.tchx84.Flatseal
+    sudo pacman -S --needed yay python python-pip wget code vim virtualbox virtualbox-host-modules-arch pycharm-community-edition obs-studio krita nmap neofetch vesktop &&
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
     '''
     try:
         subprocess.run(comando, shell=True, check=True)
@@ -392,9 +391,8 @@ def menu_cachyos():
         elif opc == 5: linux_power_menu();
         elif opc == 6: cachy_run_ani_cli();
         elif opc == 7: cachy_terminal();
-        elif opc == 8: cachy_fastfetch();
-        elif opc == 9: repo_manager();
-        elif opc == 10:cachy_ssh();
+        elif opc == 8: repo_manager();
+        elif opc == 9:cachy_ssh();
         elif opc == 99: menu_debug();
         else: cont1 += 1; clear_console(); cmenu_out2()
 #===================================================== MAIN ====================================================#"
