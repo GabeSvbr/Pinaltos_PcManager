@@ -96,16 +96,15 @@ def windows_download_utilitaries():
 
 def windows_download_gaming():
     install("Valve.Steam");     install("Discord.Discord");     install("PrismLauncher.PrismLauncher")
-    install("CPUID.CPU-Z");     install("YoutubeMusicDesktopApp.YoutubeMusicDesktopApp")
-    install("MullvadVPN.MullvadVPN");                           install("Logitech.GHUB")
-    install("Guru3D.Afterburner");                              install("EpicGames.EpicGamesLauncher")
-    install("WeMod.WeMod")
+    install("YoutubeMusicDesktopApp.YoutubeMusicDesktopApp");   install("Logitech.GHUB")
+    install("EpicGames.EpicGamesLauncher");                     install("WeMod.WeMod")
+    install("Vendicated.Vencord")
 
 
 def windows_download_worktools():
     install("GNU.Wget2");   install("Microsoft.VisualStudioCode")
     install("OBSProject.OBSStudio");    install("HandBrake.HandBrake")
-    install("TheDocumentFoundation.LibreOffice")
+    install("TheDocumentFoundation.LibreOffice");   install("Guru3D.Afterburner")
 
 def windows_download_all():
     windows_download_utilitaries();     windows_download_worktools();       windows_download_gaming();      update()
