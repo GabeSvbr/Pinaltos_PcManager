@@ -1,5 +1,5 @@
-import os, subprocess, time, webbrowser
-version = "Version 1.00"
+import os, subprocess, time, webbrowser, winreg
+version = "Version 1.37"
 
 # little def's
 
@@ -47,7 +47,7 @@ def windows_main_menu_print():
     print("\033[1m |  \033[1;38;2;124;77;255m2 ➜ \033[0m \033[1;38;2;216;200;255mSetup Options\033[0m                                   |\033[0m")
     print("\033[1m |  \033[1;38;2;124;77;255m3 ➜ \033[0m \033[1;38;2;216;200;255mList Machine Components\033[0m                         |\033[0m")
     print("\033[1m |  \033[1;38;2;124;77;255m4 ➜ \033[0m \033[1;38;2;216;200;255mLink Manager\033[0m                                    |\033[0m")
-    print("\033[1m |  \033[1;38;2;124;77;255m9 ➜ \033[0m \033[1;38;2;216;200;255mShutdown /s /f /t 0\033[0m                             |\033[0m")
+    print("\033[1m |  \033[1;38;2;124;77;255m9 ➜ \033[0m \033[1;38;2;180;0;0mShutdown /s /f /t 0\033[0m                                 |\033[0m")
     print("\033[1m |  \033[1;38;2;255;107;107m0 ➜ \033[0m \033[1;38;2;255;107;107mQuit\033[0m                                            |\033[0m");    bar()
 
 
@@ -78,6 +78,7 @@ def windows_setup_menu_print():
     print("\033[1m |    \033[1;38;2;124;77;255m3 ➜ \033[0m \033[1;38;2;216;200;255mDownload Work-Tools Packages\033[0m                 |\033[0m")
     print("\033[1m |    \033[1;38;2;124;77;255m4 ➜ \033[0m \033[1;38;2;216;200;255mDownload All Packages\033[0m                        |\033[0m")
     print("\033[1m |    \033[1;38;2;124;77;255m5 ➜ \033[0m \033[1;38;2;216;200;255mPackages Info\033[0m                                |\033[0m")
+    print("\033[1m |    \033[1;38;2;124;77;255m6 ➜ \033[0m \033[1;38;2;255;165;0mCustom Windows Setup\033[0m                         |\033[0m")
     print("\033[1m |    \033[1;38;2;255;107;107m0 ➜ \033[0m \033[1;38;2;255;107;107mLeave\033[0m                                        |\033[0m");  bar()
 
 
@@ -120,6 +121,116 @@ def windows_show_packages():
     print("\033[1;38;2;216;200;255m--> winget: AnyDesk, Visual Studio Code, OBS Studio, LibreOffice, MSI Afterburner, HandBrake\033[0m")
 
 
+#   CUSTOM WINDOWS SETUP
+
+def align_taskbar_left():
+    k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced")
+    winreg.SetValueEx(k, "TaskbarAl", 0, winreg.REG_DWORD, 0);  k.Close()
+    subprocess.run(["taskkill", "/f", "/im", "explorer.exe"], check=False)
+    subprocess.Popen(["explorer.exe"])
+
+def download_pinalto():
+    install("Python.Python.3.13");install("ImputNet.Helium");install("Vendicated.Vencord")
+def clear_taskbar():
+    ps_script = r'''
+    $shell = New-Object -ComObject Shell.Application
+    $apps = $shell.Namespace("shell:::{4234d49b-0245-4df3-b780-3893943456e1}").Items()
+    $manter = @("File Explorer", "Explorador de Arquivos", "Configurações", "Terminal", "Helium","Steam")
+    foreach ($item in $apps) {
+        if ($manter -contains $item.Name) {
+            $item.InvokeVerb("taskbarpin")
+        } else {
+            $item.InvokeVerb("taskbarunpin")
+        }
+    }
+    '''
+    subprocess.run(["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", ps_script])
+    subprocess.run(["taskkill", "/f", "/im", "explorer.exe"], check=False)
+    subprocess.Popen("explorer.exe")
+
+def remove_bloatware():
+    APPS = [
+        "Microsoft.3DBuilder", "Microsoft.BingNews", "Microsoft.BingWeather",
+        "Microsoft.BingFinance", "Microsoft.BingSports", "Microsoft.GetHelp",
+        "Microsoft.Getstarted", "Microsoft.MicrosoftOfficeHub",
+        "Microsoft.MicrosoftSolitaireCollection", "Microsoft.MixedReality.Portal",
+        "Microsoft.OneConnect", "Microsoft.People", "Microsoft.Print3D",
+        "Microsoft.SkypeApp", "Microsoft.WindowsAlarms", "Microsoft.WindowsFeedbackHub",
+        "Microsoft.WindowsMaps", "Microsoft.WindowsSoundRecorder", "Microsoft.XboxApp",
+        "Microsoft.Xbox.TCUI", "Microsoft.XboxGameOverlay", "Microsoft.XboxGamingOverlay",
+        "Microsoft.XboxIdentityProvider", "Microsoft.XboxSpeechToTextOverlay",
+        "Microsoft.YourPhone", "Microsoft.ZuneMusic", "Microsoft.ZuneVideo",
+        "Microsoft.Todos", "Clipchamp.Clipchamp", "MicrosoftTeams",
+        "Microsoft.549981C3F5F10",
+    ]
+    for app in APPS:
+        print(f"Removendo {app}...")
+        subprocess.run(
+            ["powershell", "-Command",
+            f"Get-AppxPackage -AllUsers -Name '*{app}*' | Remove-AppxPackage -AllUsers"],
+            capture_output=True
+        )
+
+def disable_widgets():
+    k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced")
+    winreg.SetValueEx(k, "TaskbarDa", 0, winreg.REG_DWORD, 0)  # remove ícone de Widgets
+    k.Close()
+
+def disable_search_box():
+    k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced")
+    winreg.SetValueEx(k, "SearchboxTaskbarMode", 0, winreg.REG_DWORD, 0)  # 0=oculto, 1=ícone, 2=caixa
+    k.Close()
+
+def disable_chat_icon():
+    k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced")
+    winreg.SetValueEx(k, "TaskbarMn", 0, winreg.REG_DWORD, 0)  # remove ícone de Chat/Teams
+
+def show_file_extensions():
+    k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced")
+    winreg.SetValueEx(k, "HideFileExt", 0, winreg.REG_DWORD, 0)  # mostra extensões de arquivo
+    winreg.SetValueEx(k, "Hidden", 0, winreg.REG_DWORD, 1)       # mostra arquivos ocultos
+
+def enable_dark_mode():
+    k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize")
+    winreg.SetValueEx(k, "AppsUseLightTheme", 0, winreg.REG_DWORD, 0)
+    winreg.SetValueEx(k, "SystemUsesLightTheme", 0, winreg.REG_DWORD, 0)
+    k.Close()
+
+def classic_context_menu():
+    # restaura o menu de contexto clássico do Win10 no Win11
+    k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, r"Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32")
+    winreg.SetValueEx(k, "", 0, winreg.REG_SZ, "")
+    k.Close()
+    subprocess.run(["taskkill", "/f", "/im", "explorer.exe"], check=False)
+    subprocess.Popen("explorer.exe")
+
+def disable_telemetry():
+    ps = '''
+    Set-Service -Name DiagTrack -StartupType Disabled
+    Stop-Service -Name DiagTrack -Force
+    '''
+    subprocess.run(["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", ps])
+
+def power_plan_high_performance():
+    subprocess.run(["powercfg", "/setactive", "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c"])
+
+def disable_startup_delay():
+    k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Serialize")
+    winreg.SetValueEx(k, "StartupDelayInMSec", 0, winreg.REG_DWORD, 0)
+    k.Close()
+
+
+def windows_custom_setup():
+
+    align_taskbar_left();disable_widgets();disable_chat_icon();disable_search_box();disable_startup_delay()
+
+    subprocess.run(["taskkill", "/f", "/im", "explorer.exe"], check=False)
+    subprocess.Popen("explorer.exe")
+    clear_taskbar()
+
+    remove_bloatware(); download_pinalto(); disable_telemetry()
+
+
 def windows_setup():
     while True:
         windows_setup_menu_print()
@@ -132,6 +243,7 @@ def windows_setup():
         elif opc == 3:  windows_download_worktools()
         elif opc == 4:  windows_download_all()
         elif opc == 5:  windows_show_packages(); confirmation()
+        elif opc == 6:  windows_custom_setup()
         else:
             break
 
