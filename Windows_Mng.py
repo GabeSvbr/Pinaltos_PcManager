@@ -40,19 +40,19 @@ def intro():
 def windows_main_menu_print():
     clear_console();
     print(f"\033[1;38;2;124;77;255m  ----< {time.strftime('%H:%M')} >----< Pinalto's Windows Manager >-------\033[0m");                                 bar()
-    print("\033[1m |  \033[1;38;2;124;77;255m1 ➜\033[0m \033[1;38;2;216;200;255mComplete System Update\033[0m                          |\033[0m")
-    print("\033[1m |  \033[1;38;2;124;77;255m2 ➜\033[0m \033[1;38;2;216;200;255mSetup Options\033[0m                                   |\033[0m")
-    print("\033[1m |  \033[1;38;2;124;77;255m3 ➜\033[0m \033[1;38;2;216;200;255mList Machine Components\033[0m                         |\033[0m")
-    print("\033[1m |  \033[1;38;2;124;77;255m4 ➜\033[0m \033[1;38;2;216;200;255mLink Manager\033[0m                                    |\033[0m")
-    print("\033[1m |  \033[1;38;2;124;77;255m9 ➜\033[0m \033[1;38;2;216;200;255mShutdown /s /f /t 0\033[0m                             |\033[0m")
-    print("\033[1m |  \033[1;38;2;255;107;107m0 ➜\033[0m \033[1;38;2;255;107;107mQuit\033[0m                                            |\033[0m");    bar()
+    print("\033[1m |  \033[1;38;2;124;77;255m1 ➜ \033[0m \033[1;38;2;216;200;255mComplete System Update\033[0m                          |\033[0m")
+    print("\033[1m |  \033[1;38;2;124;77;255m2 ➜ \033[0m \033[1;38;2;216;200;255mSetup Options\033[0m                                   |\033[0m")
+    print("\033[1m |  \033[1;38;2;124;77;255m3 ➜ \033[0m \033[1;38;2;216;200;255mList Machine Components\033[0m                         |\033[0m")
+    print("\033[1m |  \033[1;38;2;124;77;255m4 ➜ \033[0m \033[1;38;2;216;200;255mLink Manager\033[0m                                    |\033[0m")
+    print("\033[1m |  \033[1;38;2;124;77;255m9 ➜ \033[0m \033[1;38;2;216;200;255mShutdown /s /f /t 0\033[0m                             |\033[0m")
+    print("\033[1m |  \033[1;38;2;255;107;107m0 ➜ \033[0m \033[1;38;2;255;107;107mQuit\033[0m                                            |\033[0m");    bar()
 
 
 # Option 1 System Update
 
 def update():
     t = time.time();    clear_console()
-    print("             ----- Updating System -----  ");        bar()
+    print("\n\033[1;38;2;124;77;255m                  --- Updating ---                          \033[0m");        bar()
     cmd = (
         'winget upgrade --all --silent --accept-source-agreements --accept-package-agreements && '
         'DISM /Online /Cleanup-Image /StartComponentCleanup /ResetBase && '
@@ -64,7 +64,7 @@ def update():
     except subprocess.CalledProcessError:
         print("[erro] update + cleanup")
 
-    bar();  print(f"\033[1;93mElapsed time: {time.time() - t:.4f}\033[0m");     bar();      confirmation()
+    bar();  print(f"\033[1;93mElapsed time: {time.time() - t:.4f}\033[0m");     bar()
 
 
 # Option 2 Setup Options
@@ -79,6 +79,7 @@ def windows_opc3_menu_print():
 
 
 def install(package_id):
+    print(f"\033[1;38;2;124;77;255m>>  Now Installing ➜ \033[1;38;2;255;105;180m({package_id})\033[0m")
     subprocess.run([
         "winget", "install",
         "--accept-source-agreements",
@@ -88,7 +89,7 @@ def install(package_id):
 
 
 def windows_download_utilitaries():
-    install("Python.Python.3.13");  install("Git.Git");      install("python.Python.3.12")
+    install("Python.Python.3.13");  install("Git.Git")
     install("RARLab.WinRAR");       install("VideoLAN.VLC"); install("Microsoft.PowerToys")
     install("ImputNet.Helium");     install("Brave.Brave");  install("Rufus.Rufus")
     install("AntibodySoftware.WizTree");                     install("KDE.Kate")
@@ -111,11 +112,13 @@ def windows_download_all():
 
 def windows_show_packages():
     print("\033[1;38;2;124;77;255m         === UTILITIES ===\033[0m")
-    print("\033[1;38;2;216;200;255m--> winget: Git, Python, WinRAR, LibreOffice, VLC, Helium Browser, Brave Browser, WizTree, Rufus, Kate\033[0m")
+    print("\033[1;38;2;216;200;255m--> winget: Python, Git, WinRAR, VLC, PowerToys, Helium Browser, Brave Browser, Rufus, WizTree, Kate\033[0m")
+
     print("\n\033[1;38;2;124;77;255m         === GAMING ===\033[0m")
-    print("\033[1;38;2;216;200;255m--> winget: Steam, Prism Launcher, CPU-Z, YouTube Music Desktop, Mullvad VPN, Playnite, WeMod, Epic Games, Discord\033[0m")
+    print("\033[1;38;2;216;200;255m--> winget: Steam, Discord, Prism Launcher, YouTube Music Desktop, Logitech G HUB, Epic Games Launcher, WeMod, Vencord\033[0m")
+
     print("\n\033[1;38;2;124;77;255m        === WORK TOOLS ===\033[0m")
-    print("\033[1;38;2;216;200;255m--> winget: Visual Studio Code, Git, Python, Wget, OBS Studio, Nmap, HandBrake\033[0m")
+    print("\033[1;38;2;216;200;255m--> winget: Wget2, Visual Studio Code, OBS Studio, HandBrake, LibreOffice, MSI Afterburner\033[0m")
 
 
 def windows_setup():
@@ -153,7 +156,7 @@ def windows_list_components():
     subprocess.run("clip", input=result.stdout, text=True, shell=True)
 
     time_end = time.time()
-    bar();  print(f" \033[1;93mElapsed time: {time_end - time_start:.4f}\033[0m\n  \033[1;92mCopied Text Output to Clipboard...\033[0m");   bar();confirmation()
+    bar();  print(f" \033[1;93mElapsed time: {time_end - time_start:.4f}\033[0m\n  \033[1;92m           Copied Text Output to Clipboard...\033[0m");   bar();confirmation()
 
 
 # Option 4 Link Manager
@@ -202,7 +205,7 @@ def menu_windows():
             opc = get_option()
         except ValueError:
             valid(); continue
-        if opc == 1:    update()
+        if opc == 1:    update(); confirmation()
         elif opc == 2:  windows_setup()
         elif opc == 3:  windows_list_components()
         elif opc == 4:  links_manager()
@@ -218,3 +221,4 @@ def main():
 
 # ===================================================== RUN ====================================================#"
 main()
+
