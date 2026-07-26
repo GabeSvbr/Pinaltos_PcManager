@@ -1,5 +1,5 @@
 import os, subprocess, time, webbrowser
-
+version = "Version 1.00"
 
 # little def's
 
@@ -31,9 +31,12 @@ def bar():
 
 def intro():
     print("\n\033[1;38;2;124;77;255m Pinalto's Manager  '\033[0m")
+
     for i in range(4):
-        clear_console();    bar();      print(f"\033[1m |\033[1;34mLoading Windows Version{'.' * i}\033[0m");       bar()
-        time.sleep(0.15)
+        clear_console();bar()
+        print(f"\033[1m |\033[1;34m --> {version}\033[0m")
+        print(f"\033[1m |\033[1;34m Loading Windows Version{'.' * i}\033[0m");       bar()
+        time.sleep(0.25)
 
 #  Windows Section
 
@@ -68,18 +71,18 @@ def update():
 
 
 # Option 2 Setup Options
-def windows_opc3_menu_print():
-    clear_console();    print(f"\033[1;38;2;124;77;255m                 Setup Menu...\033[0m");     bar()
-    print("\033[1m |  \033[1;38;2;124;77;255m1 ➜\033[0m \033[1;38;2;216;200;255mDownload Utilities Packages\033[0m                    |\033[0m")
-    print("\033[1m |  \033[1;38;2;124;77;255m2 ➜\033[0m \033[1;38;2;216;200;255mDownload Gaming Packages\033[0m                       |\033[0m")
-    print("\033[1m |  \033[1;38;2;124;77;255m3 ➜\033[0m \033[1;38;2;216;200;255mDownload Work Tools Packages\033[0m                   |\033[0m")
-    print("\033[1m |  \033[1;38;2;124;77;255m4 ➜\033[0m \033[1;38;2;216;200;255mDownload All Packages\033[0m                          |\033[0m")
-    print("\033[1m |  \033[1;38;2;124;77;255m5 ➜\033[0m \033[1;38;2;216;200;255mPackages Info\033[0m                                  |\033[0m")
-    print("\033[1m |  \033[1;38;2;255;107;107m0 ➜\033[0m \033[1;38;2;255;107;107mLeave\033[0m                                         |\033[0m");  bar()
+def windows_setup_menu_print():
+    clear_console();    print(f"\033[1;38;2;124;77;255m                     --> Setup Menu <-- \033[0m");     bar()
+    print("\033[1m |    \033[1;38;2;124;77;255m1 ➜ \033[0m \033[1;38;2;216;200;255mDownload Utilities Packages\033[0m                  |\033[0m")
+    print("\033[1m |    \033[1;38;2;124;77;255m2 ➜ \033[0m \033[1;38;2;216;200;255mDownload Gaming Packages\033[0m                     |\033[0m")
+    print("\033[1m |    \033[1;38;2;124;77;255m3 ➜ \033[0m \033[1;38;2;216;200;255mDownload Work-Tools Packages\033[0m                 |\033[0m")
+    print("\033[1m |    \033[1;38;2;124;77;255m4 ➜ \033[0m \033[1;38;2;216;200;255mDownload All Packages\033[0m                        |\033[0m")
+    print("\033[1m |    \033[1;38;2;124;77;255m5 ➜ \033[0m \033[1;38;2;216;200;255mPackages Info\033[0m                                |\033[0m")
+    print("\033[1m |    \033[1;38;2;255;107;107m0 ➜ \033[0m \033[1;38;2;255;107;107mLeave\033[0m                                        |\033[0m");  bar()
 
 
 def install(package_id):
-    print(f"\033[1;38;2;124;77;255m>>  Now Installing ➜ \033[1;38;2;255;105;180m({package_id})\033[0m")
+    print(f"\033[1;38;2;124;77;255m>>  Now Installing ➜  \033[1;38;2;255;105;180m({package_id})\033[0m")
     subprocess.run([
         "winget", "install",
         "--accept-source-agreements",
@@ -89,41 +92,37 @@ def install(package_id):
 
 
 def windows_download_utilitaries():
-    install("Python.Python.3.13");  install("Git.Git")
-    install("RARLab.WinRAR");       install("VideoLAN.VLC"); install("Microsoft.PowerToys")
-    install("ImputNet.Helium");     install("Brave.Brave");  install("Rufus.Rufus")
-    install("AntibodySoftware.WizTree");                     install("KDE.Kate")
+    install("Microsoft.PowerToys");install("Python.Python.3.13");install("ImputNet.Helium")
+    install("RARLab.WinRAR");install("VideoLAN.VLC");install("Brave.Brave")
+    install("Rufus.Rufus");install("KDE.Kate");install("AntibodySoftware.WizTree")
 
 
 def windows_download_gaming():
     install("Valve.Steam");     install("Discord.Discord");     install("PrismLauncher.PrismLauncher")
-    install("YoutubeMusicDesktopApp.YoutubeMusicDesktopApp");   install("Logitech.GHUB")
-    install("EpicGames.EpicGamesLauncher");                     install("WeMod.WeMod")
-    install("Vendicated.Vencord")
+    install("WeMod.WeMod");     install("Vendicated.Vencord");  install("th-ch.YouTubeMusic")
 
 
 def windows_download_worktools():
-    install("GNU.Wget2");   install("Microsoft.VisualStudioCode")
-    install("OBSProject.OBSStudio");    install("HandBrake.HandBrake")
-    install("TheDocumentFoundation.LibreOffice");   install("Guru3D.Afterburner")
+    install("AnyDesk.AnyDesk");     install("Microsoft.VisualStudioCode");          install("OBSProject.OBSStudio")
+    install("TheDocumentFoundation.LibreOffice");   install("Guru3D.Afterburner");  install("HandBrake.HandBrake")
 
 def windows_download_all():
     windows_download_utilitaries();     windows_download_worktools();       windows_download_gaming();      update()
 
 def windows_show_packages():
     print("\033[1;38;2;124;77;255m         === UTILITIES ===\033[0m")
-    print("\033[1;38;2;216;200;255m--> winget: Python, Git, WinRAR, VLC, PowerToys, Helium Browser, Brave Browser, Rufus, WizTree, Kate\033[0m")
+    print("\033[1;38;2;216;200;255m--> winget: PowerToys, Python 3.13, Helium Browser, WinRAR, VLC, Brave Browser, Rufus, Kate, WizTree\033[0m")
 
     print("\n\033[1;38;2;124;77;255m         === GAMING ===\033[0m")
-    print("\033[1;38;2;216;200;255m--> winget: Steam, Discord, Prism Launcher, YouTube Music Desktop, Logitech G HUB, Epic Games Launcher, WeMod, Vencord\033[0m")
+    print("\033[1;38;2;216;200;255m--> winget: Steam, Discord, Prism Launcher, WeMod, Vencord, YouTube Music Desktop\033[0m")
 
     print("\n\033[1;38;2;124;77;255m        === WORK TOOLS ===\033[0m")
-    print("\033[1;38;2;216;200;255m--> winget: Wget2, Visual Studio Code, OBS Studio, HandBrake, LibreOffice, MSI Afterburner\033[0m")
+    print("\033[1;38;2;216;200;255m--> winget: AnyDesk, Visual Studio Code, OBS Studio, LibreOffice, MSI Afterburner, HandBrake\033[0m")
 
 
 def windows_setup():
     while True:
-        windows_opc3_menu_print()
+        windows_setup_menu_print()
         try:
             opc = get_option()
         except ValueError:
