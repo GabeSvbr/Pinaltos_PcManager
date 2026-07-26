@@ -1,5 +1,5 @@
 import os, subprocess, time, webbrowser, winreg
-version = "Version 1.37"
+version = "Version 1.38"
 
 # little def's
 
@@ -47,7 +47,7 @@ def windows_main_menu_print():
     print("\033[1m |  \033[1;38;2;124;77;255m2 ➜ \033[0m \033[1;38;2;216;200;255mSetup Options\033[0m                                   |\033[0m")
     print("\033[1m |  \033[1;38;2;124;77;255m3 ➜ \033[0m \033[1;38;2;216;200;255mList Machine Components\033[0m                         |\033[0m")
     print("\033[1m |  \033[1;38;2;124;77;255m4 ➜ \033[0m \033[1;38;2;216;200;255mLink Manager\033[0m                                    |\033[0m")
-    print("\033[1m |  \033[1;38;2;124;77;255m9 ➜ \033[0m \033[1;38;2;180;0;0mShutdown /s /f /t 0\033[0m                                 |\033[0m")
+    print("\033[1m |  \033[1;38;2;124;77;255m9 ➜ \033[0m \033[1;38;2;180;0;0mShutdown /s /f /t 0\033[0m                             |\033[0m")
     print("\033[1m |  \033[1;38;2;255;107;107m0 ➜ \033[0m \033[1;38;2;255;107;107mQuit\033[0m                                            |\033[0m");    bar()
 
 
