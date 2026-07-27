@@ -1,5 +1,5 @@
 import os, subprocess, time, webbrowser, winreg
-version = "Version 1.38"
+version = "Version 1.44"
 
 # little def's
 
@@ -52,7 +52,6 @@ def windows_main_menu_print():
 
 
 # Option 1 System Update
-
 def update():
     t = time.time();    clear_console()
     print("\n\033[1;38;2;124;77;255m                  --- Updating ---                          \033[0m");        bar()
@@ -81,6 +80,7 @@ def windows_setup_menu_print():
     print("\033[1m |    \033[1;38;2;124;77;255m6 ➜ \033[0m \033[1;38;2;255;165;0mCustom Windows Setup\033[0m                         |\033[0m")
     print("\033[1m |    \033[1;38;2;255;107;107m0 ➜ \033[0m \033[1;38;2;255;107;107mLeave\033[0m                                        |\033[0m");  bar()
 
+#   Lista os pacotes do Wingett
 
 def install(package_id):
     print(f"\033[1;38;2;124;77;255m>>  Now Installing ➜  \033[1;38;2;255;105;180m({package_id})\033[0m")
@@ -93,9 +93,9 @@ def install(package_id):
 
 
 def windows_download_utilitaries():
-    install("Microsoft.PowerToys");install("Python.Python.3.13");install("ImputNet.Helium")
+    install("Python.Python.3.13");install("ImputNet.Helium")
     install("RARLab.WinRAR");install("VideoLAN.VLC");install("Brave.Brave")
-    install("Rufus.Rufus");install("KDE.Kate");install("AntibodySoftware.WizTree")
+    install("Klocman.BulkCrapUninstaller");install("KDE.Kate");install("AntibodySoftware.WizTree")
 
 
 def windows_download_gaming():
@@ -105,7 +105,9 @@ def windows_download_gaming():
 
 def windows_download_worktools():
     install("AnyDesk.AnyDesk");     install("Microsoft.VisualStudioCode");          install("OBSProject.OBSStudio")
+    install("Rufus.Rufus")
     install("TheDocumentFoundation.LibreOffice");   install("Guru3D.Afterburner");  install("HandBrake.HandBrake")
+
 
 def windows_download_all():
     windows_download_utilitaries();     windows_download_worktools();       windows_download_gaming();      update()
@@ -123,11 +125,20 @@ def windows_show_packages():
 
 #   CUSTOM WINDOWS SETUP
 
+def set_reg(hive, path, name, tipo, valor):
+    try:
+        k = winreg.CreateKey(hive, path)
+        winreg.SetValueEx(k, name, 0, tipo, valor)
+        k.Close()
+        return True
+    except PermissionError:
+        print(f"[erro] sem permissão para gravar {name} em {path}")
+    except OSError as e:
+        print(f"[erro] falha ao gravar {name} em {path}: {e}")
+    return False
+
 def align_taskbar_left():
-    k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced")
-    winreg.SetValueEx(k, "TaskbarAl", 0, winreg.REG_DWORD, 0);  k.Close()
-    subprocess.run(["taskkill", "/f", "/im", "explorer.exe"], check=False)
-    subprocess.Popen(["explorer.exe"])
+    set_reg(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarAl", winreg.REG_DWORD, 0)
 
 def download_pinalto():
     install("Python.Python.3.13");install("ImputNet.Helium");install("Vendicated.Vencord")
@@ -135,7 +146,7 @@ def clear_taskbar():
     ps_script = r'''
     $shell = New-Object -ComObject Shell.Application
     $apps = $shell.Namespace("shell:::{4234d49b-0245-4df3-b780-3893943456e1}").Items()
-    $manter = @("File Explorer", "Explorador de Arquivos", "Configurações", "Terminal", "Helium","Steam")
+    $manter = @("File Explorer", "Explorador de Arquivos", "Configurações", "Terminal", "Helium","Steam","Discord")
     foreach ($item in $apps) {
         if ($manter -contains $item.Name) {
             $item.InvokeVerb("taskbarpin")
@@ -145,10 +156,9 @@ def clear_taskbar():
     }
     '''
     subprocess.run(["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", ps_script])
-    subprocess.run(["taskkill", "/f", "/im", "explorer.exe"], check=False)
-    subprocess.Popen("explorer.exe")
 
 def remove_bloatware():
+    print(f"\033[1;38;2;124;77;255m>>   \033[1;38;2;255;105;180m Removing Bloatware \033[0m")
     APPS = [
         "Microsoft.3DBuilder", "Microsoft.BingNews", "Microsoft.BingWeather",
         "Microsoft.BingFinance", "Microsoft.BingSports", "Microsoft.GetHelp",
@@ -172,39 +182,30 @@ def remove_bloatware():
         )
 
 def disable_widgets():
-    k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced")
-    winreg.SetValueEx(k, "TaskbarDa", 0, winreg.REG_DWORD, 0)  # remove ícone de Widgets
-    k.Close()
+    print(f"\033[1;38;2;124;77;255m>>   \033[1;38;2;255;105;180m Disabling Widgets \033[0m")#não sei funciona
+    set_reg(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarDa", winreg.REG_DWORD, 0)
 
 def disable_search_box():
-    k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced")
-    winreg.SetValueEx(k, "SearchboxTaskbarMode", 0, winreg.REG_DWORD, 0)  # 0=oculto, 1=ícone, 2=caixa
-    k.Close()
+    print(f"\033[1;38;2;124;77;255m>>   \033[1;38;2;255;105;180m Disabling Search Box \033[0m")#não funciona
+    set_reg(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "SearchboxTaskbarMode", winreg.REG_DWORD, 0)
 
 def disable_chat_icon():
-    k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced")
-    winreg.SetValueEx(k, "TaskbarMn", 0, winreg.REG_DWORD, 0)  # remove ícone de Chat/Teams
+    print(f"\033[1;38;2;124;77;255m>>   \033[1;38;2;255;105;180m Disabling Search Box \033[0m")#não sei funciona
+    set_reg(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarMn", winreg.REG_DWORD, 0)
 
 def show_file_extensions():
-    k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced")
-    winreg.SetValueEx(k, "HideFileExt", 0, winreg.REG_DWORD, 0)  # mostra extensões de arquivo
-    winreg.SetValueEx(k, "Hidden", 0, winreg.REG_DWORD, 1)       # mostra arquivos ocultos
+    print(f"\033[1;38;2;124;77;255m>>   \033[1;38;2;255;105;180m Show File Extensions \033[0m")#não sei se funciona
+    set_reg(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "HideFileExt", winreg.REG_DWORD, 0)
+    set_reg(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "Hidden", winreg.REG_DWORD, 1)
 
 def enable_dark_mode():
-    k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize")
-    winreg.SetValueEx(k, "AppsUseLightTheme", 0, winreg.REG_DWORD, 0)
-    winreg.SetValueEx(k, "SystemUsesLightTheme", 0, winreg.REG_DWORD, 0)
-    k.Close()
+    print(f"\033[1;38;2;124;77;255m>>   \033[1;38;2;255;105;180m Enable Dark Mode \033[0m")#não funciona
+    set_reg(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", winreg.REG_DWORD, 0)
+    set_reg(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", winreg.REG_DWORD, 0)
 
-def classic_context_menu():
-    # restaura o menu de contexto clássico do Win10 no Win11
-    k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, r"Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32")
-    winreg.SetValueEx(k, "", 0, winreg.REG_SZ, "")
-    k.Close()
-    subprocess.run(["taskkill", "/f", "/im", "explorer.exe"], check=False)
-    subprocess.Popen("explorer.exe")
 
 def disable_telemetry():
+    print(f"\033[1;38;2;124;77;255m>>   \033[1;38;2;255;105;180m Attempting to Disble Telemetry \033[0m")  #não funciona
     ps = '''
     Set-Service -Name DiagTrack -StartupType Disabled
     Stop-Service -Name DiagTrack -Force
@@ -212,23 +213,22 @@ def disable_telemetry():
     subprocess.run(["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", ps])
 
 def power_plan_high_performance():
+    print(f"\033[1;38;2;124;77;255m>>   \033[1;38;2;255;105;180m Setting Windows to High Performance Energy Plan \033[0m")  #não sei sefunciona
     subprocess.run(["powercfg", "/setactive", "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c"])
 
 def disable_startup_delay():
-    k = winreg.CreateKey(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Serialize")
-    winreg.SetValueEx(k, "StartupDelayInMSec", 0, winreg.REG_DWORD, 0)
-    k.Close()
+    print(f"\033[1;38;2;124;77;255m>>   \033[1;38;2;255;105;180m Disable Startup Dellay \033[0m")  #não sei sefunciona
+    set_reg(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Serialize", "StartupDelayInMSec", winreg.REG_DWORD, 0)
 
 
 def windows_custom_setup():
 
+    download_pinalto()
     align_taskbar_left();disable_widgets();disable_chat_icon();disable_search_box();disable_startup_delay()
-
+    clear_taskbar()
+    remove_bloatware(); disable_telemetry()
     subprocess.run(["taskkill", "/f", "/im", "explorer.exe"], check=False)
     subprocess.Popen("explorer.exe")
-    clear_taskbar()
-
-    remove_bloatware(); download_pinalto(); disable_telemetry()
 
 
 def windows_setup():
@@ -278,7 +278,6 @@ def links_manager_print():
     print("\033[1m |  \033[1;38;2;124;77;255m2 ➜\033[0m \033[1;38;2;216;200;255mFsOS Homepage\033[0m                                   |\033[0m")
     print("\033[1m |  \033[1;38;2;124;77;255m3 ➜\033[0m \033[1;38;2;216;200;255mSilent Hill Native PC (Linux/Win) (.ISO needed)\033[0m |\033[0m")
     print("\033[1m |  \033[1;38;2;124;77;255m4 ➜\033[0m \033[1;38;2;216;200;255mSteam Achievement Unlocker\033[0m                      |\033[0m")
-    print("\033[1m |  \033[1;38;2;124;77;255m5 ➜\033[0m \033[1;38;2;216;200;255mHelium Browser\033[0m                                  |\033[0m")
     print("\033[1m |  \033[1;38;2;255;107;107m0 ➜\033[0m \033[1;38;2;255;107;107mLeave\033[0m                                          |\033[0m")
     bar()
 
@@ -295,8 +294,6 @@ def links_manager():
             webbrowser.open("https://github.com/SlickAmogus/silent-hill-pc-nightly")
         elif opc == 4:
             webbrowser.open("https://github.com/asdfghj1237890/SteamAchievementManager-Enhanced")
-        elif opc == 5:
-            webbrowser.open("https://github.com/imputnet/helium-windows")
         else:
             break
 
