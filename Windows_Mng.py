@@ -1,11 +1,9 @@
-import os, subprocess, time, webbrowser, winreg
-version = "Version 1.44"
+import os, sys, subprocess, time, webbrowser, winreg, ctypes,  urllib.request
+version = "Version 1.68"
 
-# little def's
-
+# Utilities
 def clear_console():
     os.system("cls" if os.name == "nt" else "clear")
-
 def get_option():
     while True:
         opc = input("    \033[1;38;5;208mOption: \033[0m").strip()
@@ -20,38 +18,30 @@ def confirmation():
 def valid():
     print("  \033[31mSelect Valid Option...\033[0m");
     time.sleep(0.5)
-
-
-def menu_spacing():
-    print("\033[1m |                                                      |\033[0m")
 def bar():
     print("\033[1m#========================================================#\033[0m")
-
 #  Intro
-
 def intro():
     print("\n\033[1;38;2;124;77;255m Pinalto's Manager  '\033[0m")
-
     for i in range(4):
         clear_console();bar()
         print(f"\033[1m |\033[1;34m --> {version}\033[0m")
         print(f"\033[1m |\033[1;34m Loading Windows Version{'.' * i}\033[0m");       bar()
         time.sleep(0.25)
 
-#  Windows Section
 
+#   Windows Main_Menu Print
 def windows_main_menu_print():
     clear_console();
     print(f"\033[1;38;2;124;77;255m  ----< {time.strftime('%H:%M')} >----< Pinalto's Windows Manager >-------\033[0m");                                 bar()
     print("\033[1m |  \033[1;38;2;124;77;255m1 ➜ \033[0m \033[1;38;2;216;200;255mComplete System Update\033[0m                          |\033[0m")
     print("\033[1m |  \033[1;38;2;124;77;255m2 ➜ \033[0m \033[1;38;2;216;200;255mSetup Options\033[0m                                   |\033[0m")
     print("\033[1m |  \033[1;38;2;124;77;255m3 ➜ \033[0m \033[1;38;2;216;200;255mList Machine Components\033[0m                         |\033[0m")
-    print("\033[1m |  \033[1;38;2;124;77;255m4 ➜ \033[0m \033[1;38;2;216;200;255mLink Manager\033[0m                                    |\033[0m")
+    print("\033[1m |  \033[1;38;2;124;77;255m4 ➜ \033[0m \033[1;38;2;216;200;255mFun Links\033[0m                                       |\033[0m")
+    print("\033[1m |  \033[1;38;2;124;77;255m8 ➜ \033[0m \033[1;38;2;255;165;0mCustom Windows Setup (comercial)\033[0m                |\033[0m")
     print("\033[1m |  \033[1;38;2;124;77;255m9 ➜ \033[0m \033[1;38;2;180;0;0mShutdown /s /f /t 0\033[0m                             |\033[0m")
     print("\033[1m |  \033[1;38;2;255;107;107m0 ➜ \033[0m \033[1;38;2;255;107;107mQuit\033[0m                                            |\033[0m");    bar()
-
-
-# Option 1 System Update
+#   System Update
 def update():
     t = time.time();    clear_console()
     print("\n\033[1;38;2;124;77;255m                  --- Updating ---                          \033[0m");        bar()
@@ -65,23 +55,10 @@ def update():
         print("[ok] update + cleanup")
     except subprocess.CalledProcessError:
         print("[erro] update + cleanup")
-
     bar();  print(f"\033[1;93mElapsed time: {time.time() - t:.4f}\033[0m");     bar()
 
-
-# Option 2 Setup Options
-def windows_setup_menu_print():
-    clear_console();    print(f"\033[1;38;2;124;77;255m                     --> Setup Menu <-- \033[0m");     bar()
-    print("\033[1m |    \033[1;38;2;124;77;255m1 ➜ \033[0m \033[1;38;2;216;200;255mDownload Utilities Packages\033[0m                  |\033[0m")
-    print("\033[1m |    \033[1;38;2;124;77;255m2 ➜ \033[0m \033[1;38;2;216;200;255mDownload Gaming Packages\033[0m                     |\033[0m")
-    print("\033[1m |    \033[1;38;2;124;77;255m3 ➜ \033[0m \033[1;38;2;216;200;255mDownload Work-Tools Packages\033[0m                 |\033[0m")
-    print("\033[1m |    \033[1;38;2;124;77;255m4 ➜ \033[0m \033[1;38;2;216;200;255mDownload All Packages\033[0m                        |\033[0m")
-    print("\033[1m |    \033[1;38;2;124;77;255m5 ➜ \033[0m \033[1;38;2;216;200;255mPackages Info\033[0m                                |\033[0m")
-    print("\033[1m |    \033[1;38;2;124;77;255m6 ➜ \033[0m \033[1;38;2;255;165;0mCustom Windows Setup\033[0m                         |\033[0m")
-    print("\033[1m |    \033[1;38;2;255;107;107m0 ➜ \033[0m \033[1;38;2;255;107;107mLeave\033[0m                                        |\033[0m");  bar()
-
-#   Lista os pacotes do Wingett
-
+#   Setup Options
+#       Install Via Winget
 def install(package_id):
     print(f"\033[1;38;2;124;77;255m>>  Now Installing ➜  \033[1;38;2;255;105;180m({package_id})\033[0m")
     subprocess.run([
@@ -90,166 +67,56 @@ def install(package_id):
         "--accept-package-agreements",
         "-e", "--id", package_id
     ])
-
-
+#       Setup Print
+def windows_setup_menu_print():
+    clear_console();    print(f"\033[1;38;2;124;77;255m                     --> Setup Menu <-- \033[0m");     bar()
+    print("\033[1m |    \033[1;38;2;124;77;255m1 ➜ \033[0m \033[1;38;2;216;200;255mDownload Utilities Packages\033[0m                  |\033[0m")
+    print("\033[1m |    \033[1;38;2;124;77;255m2 ➜ \033[0m \033[1;38;2;216;200;255mDownload Gaming Packages\033[0m                     |\033[0m")
+    print("\033[1m |    \033[1;38;2;124;77;255m3 ➜ \033[0m \033[1;38;2;216;200;255mDownload Work-Tools Packages\033[0m                 |\033[0m")
+    print("\033[1m |    \033[1;38;2;124;77;255m4 ➜ \033[0m \033[1;38;2;216;200;255mDownload All Packages\033[0m                        |\033[0m")
+    print("\033[1m |    \033[1;38;2;124;77;255m5 ➜ \033[0m \033[1;38;2;216;200;255mPackages Info\033[0m                                |\033[0m")
+    print("\033[1m |    \033[1;38;2;255;107;107m0 ➜ \033[0m \033[1;38;2;255;107;107mLeave\033[0m                                        |\033[0m");  bar()
+#       Download Packages From Download Menu
 def windows_download_utilitaries():
     install("Python.Python.3.13");install("ImputNet.Helium")
     install("RARLab.WinRAR");install("VideoLAN.VLC");install("Brave.Brave")
     install("Klocman.BulkCrapUninstaller");install("KDE.Kate");install("AntibodySoftware.WizTree")
-
-
 def windows_download_gaming():
     install("Valve.Steam");     install("Discord.Discord");     install("PrismLauncher.PrismLauncher")
     install("WeMod.WeMod");     install("Vendicated.Vencord");  install("th-ch.YouTubeMusic")
-
-
+def download_pinalto():
+    install("Python.Python.3.13");install("ImputNet.Helium");install("Vendicated.Vencord")
 def windows_download_worktools():
     install("AnyDesk.AnyDesk");     install("Microsoft.VisualStudioCode");          install("OBSProject.OBSStudio")
     install("Rufus.Rufus")
     install("TheDocumentFoundation.LibreOffice");   install("Guru3D.Afterburner");  install("HandBrake.HandBrake")
-
-
 def windows_download_all():
     windows_download_utilitaries();     windows_download_worktools();       windows_download_gaming();      update()
-
 def windows_show_packages():
     print("\033[1;38;2;124;77;255m         === UTILITIES ===\033[0m")
-    print("\033[1;38;2;216;200;255m--> winget: PowerToys, Python 3.13, Helium Browser, WinRAR, VLC, Brave Browser, Rufus, Kate, WizTree\033[0m")
-
-    print("\n\033[1;38;2;124;77;255m         === GAMING ===\033[0m")
+    print("\033[1;38;2;216;200;255m--> winget: Python 3.13, Helium Browser, WinRAR, VLC, Brave Browser, Bulk Crap Uninstaller, Kate, WizTree\033[0m")
+    print("\n\033[1;38;2;124;77;255m          === GAMING ===\033[0m")
     print("\033[1;38;2;216;200;255m--> winget: Steam, Discord, Prism Launcher, WeMod, Vencord, YouTube Music Desktop\033[0m")
-
     print("\n\033[1;38;2;124;77;255m        === WORK TOOLS ===\033[0m")
-    print("\033[1;38;2;216;200;255m--> winget: AnyDesk, Visual Studio Code, OBS Studio, LibreOffice, MSI Afterburner, HandBrake\033[0m")
-
-
-#   CUSTOM WINDOWS SETUP
-
-def set_reg(hive, path, name, tipo, valor):
-    try:
-        k = winreg.CreateKey(hive, path)
-        winreg.SetValueEx(k, name, 0, tipo, valor)
-        k.Close()
-        return True
-    except PermissionError:
-        print(f"[erro] sem permissão para gravar {name} em {path}")
-    except OSError as e:
-        print(f"[erro] falha ao gravar {name} em {path}: {e}")
-    return False
-
-def align_taskbar_left():
-    set_reg(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarAl", winreg.REG_DWORD, 0)
-
-def download_pinalto():
-    install("Python.Python.3.13");install("ImputNet.Helium");install("Vendicated.Vencord")
-def clear_taskbar():
-    ps_script = r'''
-    $shell = New-Object -ComObject Shell.Application
-    $apps = $shell.Namespace("shell:::{4234d49b-0245-4df3-b780-3893943456e1}").Items()
-    $manter = @("File Explorer", "Explorador de Arquivos", "Configurações", "Terminal", "Helium","Steam","Discord")
-    foreach ($item in $apps) {
-        if ($manter -contains $item.Name) {
-            $item.InvokeVerb("taskbarpin")
-        } else {
-            $item.InvokeVerb("taskbarunpin")
-        }
-    }
-    '''
-    subprocess.run(["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", ps_script])
-
-def remove_bloatware():
-    print(f"\033[1;38;2;124;77;255m>>   \033[1;38;2;255;105;180m Removing Bloatware \033[0m")
-    APPS = [
-        "Microsoft.3DBuilder", "Microsoft.BingNews", "Microsoft.BingWeather",
-        "Microsoft.BingFinance", "Microsoft.BingSports", "Microsoft.GetHelp",
-        "Microsoft.Getstarted", "Microsoft.MicrosoftOfficeHub",
-        "Microsoft.MicrosoftSolitaireCollection", "Microsoft.MixedReality.Portal",
-        "Microsoft.OneConnect", "Microsoft.People", "Microsoft.Print3D",
-        "Microsoft.SkypeApp", "Microsoft.WindowsAlarms", "Microsoft.WindowsFeedbackHub",
-        "Microsoft.WindowsMaps", "Microsoft.WindowsSoundRecorder", "Microsoft.XboxApp",
-        "Microsoft.Xbox.TCUI", "Microsoft.XboxGameOverlay", "Microsoft.XboxGamingOverlay",
-        "Microsoft.XboxIdentityProvider", "Microsoft.XboxSpeechToTextOverlay",
-        "Microsoft.YourPhone", "Microsoft.ZuneMusic", "Microsoft.ZuneVideo",
-        "Microsoft.Todos", "Clipchamp.Clipchamp", "MicrosoftTeams",
-        "Microsoft.549981C3F5F10",
-    ]
-    for app in APPS:
-        print(f"Removendo {app}...")
-        subprocess.run(
-            ["powershell", "-Command",
-            f"Get-AppxPackage -AllUsers -Name '*{app}*' | Remove-AppxPackage -AllUsers"],
-            capture_output=True
-        )
-
-def disable_widgets():
-    print(f"\033[1;38;2;124;77;255m>>   \033[1;38;2;255;105;180m Disabling Widgets \033[0m")#não sei funciona
-    set_reg(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarDa", winreg.REG_DWORD, 0)
-
-def disable_search_box():
-    print(f"\033[1;38;2;124;77;255m>>   \033[1;38;2;255;105;180m Disabling Search Box \033[0m")#não funciona
-    set_reg(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "SearchboxTaskbarMode", winreg.REG_DWORD, 0)
-
-def disable_chat_icon():
-    print(f"\033[1;38;2;124;77;255m>>   \033[1;38;2;255;105;180m Disabling Search Box \033[0m")#não sei funciona
-    set_reg(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarMn", winreg.REG_DWORD, 0)
-
-def show_file_extensions():
-    print(f"\033[1;38;2;124;77;255m>>   \033[1;38;2;255;105;180m Show File Extensions \033[0m")#não sei se funciona
-    set_reg(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "HideFileExt", winreg.REG_DWORD, 0)
-    set_reg(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "Hidden", winreg.REG_DWORD, 1)
-
-def enable_dark_mode():
-    print(f"\033[1;38;2;124;77;255m>>   \033[1;38;2;255;105;180m Enable Dark Mode \033[0m")#não funciona
-    set_reg(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", winreg.REG_DWORD, 0)
-    set_reg(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", winreg.REG_DWORD, 0)
-
-
-def disable_telemetry():
-    print(f"\033[1;38;2;124;77;255m>>   \033[1;38;2;255;105;180m Attempting to Disble Telemetry \033[0m")  #não funciona
-    ps = '''
-    Set-Service -Name DiagTrack -StartupType Disabled
-    Stop-Service -Name DiagTrack -Force
-    '''
-    subprocess.run(["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", ps])
-
-def power_plan_high_performance():
-    print(f"\033[1;38;2;124;77;255m>>   \033[1;38;2;255;105;180m Setting Windows to High Performance Energy Plan \033[0m")  #não sei sefunciona
-    subprocess.run(["powercfg", "/setactive", "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c"])
-
-def disable_startup_delay():
-    print(f"\033[1;38;2;124;77;255m>>   \033[1;38;2;255;105;180m Disable Startup Dellay \033[0m")  #não sei sefunciona
-    set_reg(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Serialize", "StartupDelayInMSec", winreg.REG_DWORD, 0)
-
-
-def windows_custom_setup():
-
-    download_pinalto()
-    align_taskbar_left();disable_widgets();disable_chat_icon();disable_search_box();disable_startup_delay()
-    clear_taskbar()
-    remove_bloatware(); disable_telemetry()
-    subprocess.run(["taskkill", "/f", "/im", "explorer.exe"], check=False)
-    subprocess.Popen("explorer.exe")
-
-
+    print("\033[1;38;2;216;200;255m--> winget: AnyDesk, Visual Studio Code, OBS Studio, Rufus, LibreOffice, MSI Afterburner, HandBrake\033[0m")
+#windows  setup menu
 def windows_setup():
     while True:
         windows_setup_menu_print()
         try:
             opc = get_option()
         except ValueError:
-            valid();    continue
+            valid()
+            continue
+
         if opc == 1:    windows_download_utilitaries()
         elif opc == 2:  windows_download_gaming()
         elif opc == 3:  windows_download_worktools()
         elif opc == 4:  windows_download_all()
-        elif opc == 5:  windows_show_packages(); confirmation()
-        elif opc == 6:  windows_custom_setup()
+        elif opc == 5:  windows_show_packages();    confirmation()
         else:
             break
-
-
 # Option 3 Components Listing
-
 def windows_list_components():
     clear_console();    print("\n\033[1;38;2;124;77;255m                  --- COMPONENTS ---                          \033[0m");        bar()
     time_start = time.time()
@@ -262,26 +129,20 @@ def windows_list_components():
     )
     text = result.stdout
     print(text)
-
-    #Copies Output to tray
     subprocess.run("clip", input=result.stdout, text=True, shell=True)
-
     time_end = time.time()
     bar();  print(f" \033[1;93mElapsed time: {time_end - time_start:.4f}\033[0m\n  \033[1;92m           Copied Text Output to Clipboard...\033[0m");   bar();confirmation()
 
-
-# Option 4 Link Manager
-
+#   Link Manager
+#       Link manager print
 def links_manager_print():
     clear_console();    print(f"\033[1;38;2;124;77;255m                Link Manager...\033[0m");    bar()
-    print("\033[1m |  \033[1;38;2;124;77;255m1 ➜\033[0m \033[1;38;2;216;200;255mPinalto's PcManager\033[0m                             |\033[0m")
+    print("\033[1m |  \033[1;38;2;124;77;255m1 ➜\033[0m \033[1;38;2;216;200;255mPinalto's PcManager Github Repo\033[0m                 |\033[0m")
     print("\033[1m |  \033[1;38;2;124;77;255m2 ➜\033[0m \033[1;38;2;216;200;255mFsOS Homepage\033[0m                                   |\033[0m")
     print("\033[1m |  \033[1;38;2;124;77;255m3 ➜\033[0m \033[1;38;2;216;200;255mSilent Hill Native PC (Linux/Win) (.ISO needed)\033[0m |\033[0m")
     print("\033[1m |  \033[1;38;2;124;77;255m4 ➜\033[0m \033[1;38;2;216;200;255mSteam Achievement Unlocker\033[0m                      |\033[0m")
-    print("\033[1m |  \033[1;38;2;255;107;107m0 ➜\033[0m \033[1;38;2;255;107;107mLeave\033[0m                                          |\033[0m")
-    bar()
-
-
+    print("\033[1m |  \033[1;38;2;255;107;107m0 ➜\033[0m \033[1;38;2;255;107;107mLeave\033[0m                                           |\033[0m"); bar()
+#       link manager menu Navigator
 def links_manager():
     while True:
         links_manager_print()
@@ -297,11 +158,189 @@ def links_manager():
         else:
             break
 
+#   CUSTOM WINDOWS SETUP (Commercial and Private)
+def log(m): print(f"\033[1;38;2;124;77;255m>>\033[1;38;2;255;105;180m {m}\033[0m")
 
+def set_reg(hive,path,name,tipo,valor):
+    try:
+        k=winreg.CreateKeyEx(hive,path,0,winreg.KEY_ALL_ACCESS);winreg.SetValueEx(k,name,0,tipo,valor);winreg.CloseKey(k);return True
+    except PermissionError: print(f"Sem permissão para gravar {name} em {path}")
+    except OSError as e: print(f"Falha ao gravar {name} em {path}: {e}")
+    return False
+#       Restart Explorer
+def restart_explorer():
+    log("Restarting Explorer")
+    subprocess.run(["taskkill","/F","/IM","explorer.exe"],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+    subprocess.Popen(["explorer.exe"])
+#       Align Taskbar to the left
+def align_taskbar_left():
+    log("Aligning Taskbar to the left")
+    set_reg(winreg.HKEY_CURRENT_USER,r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced","TaskbarAl",winreg.REG_DWORD,0)
+#       Debloat Windows
+def debloat_windows():
+    log("Debloating Windows")
+    if not ctypes.windll.shell32.IsUserAnAdmin():
+        ctypes.windll.shell32.ShellExecuteW(
+            None, "runas", sys.executable, " ".join(sys.argv), None, 1
+        )
+        sys.exit()
+    ps_script = r'''
+Write-Host "Starting Windows Debloat and Privacy Hardening..." -ForegroundColor Green
+
+$packages = "Microsoft.3DBuilder","Microsoft.BingNews","Microsoft.BingSearch","Microsoft.BingWeather","Microsoft.GetHelp","Microsoft.Getstarted","Microsoft.GamingApp","Microsoft.Microsoft3DViewer","Microsoft.MicrosoftEdge.Stable","Microsoft.MicrosoftOfficeHub","Microsoft.MicrosoftSolitaireCollection","Microsoft.MicrosoftStickyNotes","Microsoft.MixedReality.Portal","Microsoft.NotePad","Microsoft.Office.OneNote","Microsoft.OneDrive","Microsoft.MSPaint","Microsoft.OutlookForWindows","Microsoft.Paint","Microsoft.People","Microsoft.PowerAutomateDesktop","Microsoft.SkypeApp","Microsoft.Todos","Microsoft.Wallet","Microsoft.Whiteboard","Microsoft.WindowsAlarms","Microsoft.WindowsCamera","Microsoft.Windows.DevHome","Microsoft.WindowsFeedbackHub","Microsoft.WindowsMaps","Microsoft.WindowsSoundRecorder","Microsoft.YourPhone","Microsoft.AAD.BrokerPlugin","Microsoft.Advertising.Xaml","Microsoft.Cortana","Microsoft.Services.Store.Engagement","Microsoft.Windows.Cortana","Microsoft.Win32WebViewHost","Microsoft.WindowsCommunicationsApps","Microsoft.Windows.ContentDeliveryManager","Microsoft.Windows.NarratorQuickStart","Microsoft.Windows.ParentalControls","Microsoft.Windows.PeopleExperienceHost","Microsoft.Windows.PinningConfirmationDialog","Microsoft.Windows.SecureAssessmentBrowser","Microsoft.Windows.XGpuEjectDialog","Microsoft.Windows.OOBENetworkCaptivePortal","Microsoft.Windows.OOBENetworkConnectionFlow"
+
+foreach ($p in $packages) {
+    Get-AppxPackage -AllUsers | Where-Object Name -like $p | Remove-AppxPackage -AllUsers -Confirm:$false
+    $pn = (Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $p).PackageName
+    if ($pn) { dism.exe /Online /Remove-ProvisionedAppxPackage /PackageName:$pn }
+}
+
+Write-Host "Removing and blocking Microsoft Edge..." -ForegroundColor Cyan
+"msedge","edgeupdate","edgewebview2","edgecore" | ForEach-Object { Stop-Process -Name $_ -Force -ErrorAction SilentlyContinue }
+Start-Sleep 2
+"msedge","edgeupdate","edgewebview2","edgecore" | ForEach-Object { Stop-Process -Name $_ -Force -ErrorAction SilentlyContinue }
+
+"C:\Program Files (x86)\Microsoft\Edge","C:\Program Files (x86)\Microsoft\EdgeUpdate","C:\Program Files (x86)\Microsoft\EdgeWebView","C:\Program Files (x86)\Microsoft\EdgeCore","C:\Program Files\Microsoft\Edge","C:\Program Files\Microsoft\EdgeUpdate","$env:LOCALAPPDATA\Microsoft\Edge","$env:PROGRAMDATA\Microsoft\Edge" | ForEach-Object {
+    if (Test-Path $_) {
+        takeown /f $_ /r /d Y | Out-Null
+        icacls $_ /grant Administrators:F /t /c /l /q | Out-Null
+        Remove-Item $_ -Recurse -Force -ErrorAction SilentlyContinue
+    }
+}
+
+New-Item "HKLM:\SOFTWARE\Microsoft\EdgeUpdate" -Force | Out-Null
+New-ItemProperty "HKLM:\SOFTWARE\Microsoft\EdgeUpdate" -Name DoNotUpdateToEdgeWithChromium -Value 1 -PropertyType DWord -Force | Out-Null
+"edgeupdate","edgeupdatem" | ForEach-Object { Get-Service -Name $_ -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled -ErrorAction SilentlyContinue; Stop-Service -Name $_ -Force -ErrorAction SilentlyContinue }
+"\Microsoft\EdgeUpdate\EdgeUpdateTaskMachineCore","\Microsoft\EdgeUpdate\EdgeUpdateTaskMachineUA" | ForEach-Object { schtasks /Change /TN $_ /Disable 2>$null }
+New-Item "HKLM:\SOFTWARE\Policies\Microsoft\EdgeUpdate" -Force | Out-Null
+New-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\EdgeUpdate" -Name InstallDefault -Value 0 -PropertyType DWord -Force | Out-Null
+
+Write-Host "Disabling Telemetry & Tracking..." -ForegroundColor Yellow
+"DiagTrack","dmwappushservice","Wecsvc","RemoteRegistry" | ForEach-Object { Stop-Service $_ -Force -ErrorAction SilentlyContinue; Set-Service $_ -StartupType Disabled -ErrorAction SilentlyContinue }
+reg add "HKLM\Software\Policies\Microsoft\Windows\DataCollection" /v AllowTelemetry /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" /v AllowTelemetry /t REG_DWORD /d 0 /f
+
+Write-Host "Disabling Cortana & Background Apps..." -ForegroundColor Yellow
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search" /v AllowCortana /t REG_DWORD /d 0 /f
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" /v CortanaConsent /t REG_DWORD /d 0 /f
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" /v GlobalUserDisabled /t REG_DWORD /d 1 /f
+
+Write-Host "Disabling Ads, Tips & Suggestions..." -ForegroundColor Yellow
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v ContentDeliveryAllowed /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v OemPreInstalledAppsEnabled /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v PreInstalledAppsEnabled /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v SilentInstalledAppsEnabled /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v SystemPaneSuggestionsEnabled /t REG_DWORD /d 0 /f
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v SubscribedContent-338393Enabled /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsSpotlightFeatures /t REG_DWORD /d 1 /f
+
+Write-Host "Debloat & Privacy Hardening Complete! Restarting Explorer..." -ForegroundColor Green
+Stop-Process -Name explorer -Force
+Start-Process explorer
+Write-Host "Done! Please restart your computer for all changes to take effect." -ForegroundColor Green
+'''
+    script_path = os.path.join(os.getenv("TEMP", "."), "debloat_temp.ps1")
+    with open(script_path, "w", encoding="utf-8") as f:
+        f.write(ps_script)
+    try:
+        result = subprocess.run(
+            ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", script_path],
+            capture_output=True, text=True
+        )
+        print(result.stdout)
+        if result.returncode != 0:
+            print(result.stderr, file=sys.stderr)
+    finally:
+        os.remove(script_path)
+#       Download and apply Wallpaper (Through Github Repos)
+def download_and_apply_wallpaper(url):
+    log(f"Applying Custom Wallpaper from {url}")
+    if "github.com" in url and "/blob/" in url:
+        url=url.replace("https://github.com/","https://raw.githubusercontent.com/").replace("/blob/","/")
+    wp=os.path.join(os.environ["TEMP"],"wallpaper.jpg")
+    urllib.request.urlretrieve(url,wp)
+    ctypes.windll.user32.SystemParametersInfoW(20,0,wp,3)
+#       Disable Widgets and Disable search box
+def disable_widgets_and_search_box():
+    log("Disabling Windows Widgets")
+    log("Disabling Search Box")
+    try:
+        chave_path = r"SOFTWARE\Policies\Microsoft\Dsh"
+        chave = winreg.CreateKeyEx(winreg.HKEY_LOCAL_MACHINE, chave_path, 0, winreg.KEY_WRITE)
+        winreg.SetValueEx(chave, "AllowNewsAndInterests", 0, winreg.REG_DWORD, 0)
+        winreg.CloseKey(chave)
+        print("Widgets desabilitados via política do sistema (HKLM).")
+    except Exception as e:
+        log("Possible error!!")
+    try:
+        chave_path_user = r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+        chave = winreg.CreateKeyEx(winreg.HKEY_CURRENT_USER, chave_path_user, 0, winreg.KEY_WRITE)
+        winreg.SetValueEx(chave, "TaskbarDa", 0, winreg.REG_DWORD, 0)
+        winreg.CloseKey(chave)
+        print("Ícone de Widgets removido da barra de tarefas.")
+    except Exception as e:
+        log("Possible error!!")
+
+    set_reg(winreg.HKEY_CURRENT_USER,r"Software\Microsoft\Windows\CurrentVersion\Search","SearchboxTaskbarMode",winreg.REG_DWORD,0)
+#       Show file extensions (.exe | .py | .txt)
+def show_file_extensions():
+    log("Show File Extensions")
+    set_reg(winreg.HKEY_CURRENT_USER,r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced","HideFileExt",winreg.REG_DWORD,0)
+    set_reg(winreg.HKEY_CURRENT_USER,r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced","Hidden",winreg.REG_DWORD,1)
+#       Enable ending task Through Taskbar function
+def enable_end_task():
+    log("Enabling Taskbar End Task")
+    set_reg(
+        winreg.HKEY_CURRENT_USER,
+        r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\TaskbarDeveloperSettings",
+        "TaskbarEndTask",
+        winreg.REG_DWORD,
+        1
+    )
+#       Enable windows dark mode
+def enable_dark_mode():
+    log("Enabling Dark Mode")
+    for v in ("AppsUseLightTheme","SystemUsesLightTheme"):
+        set_reg(winreg.HKEY_CURRENT_USER,r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize",v,winreg.REG_DWORD,0)
+#       Disable Windows Telemetry
+def disable_telemetry():
+    log("Disabling Telemtry")
+    set_reg(winreg.HKEY_LOCAL_MACHINE,r"SOFTWARE\Policies\Microsoft\Windows\DataCollection","AllowTelemetry",winreg.REG_DWORD,0)
+    ps="""Set-Service -Name DiagTrack -StartupType Disabled -ErrorAction SilentlyContinue
+    Stop-Service -Name DiagTrack -Force -ErrorAction SilentlyContinue
+    Set-Service -Name dmwappushservice -StartupType Disabled -ErrorAction SilentlyContinue
+    Stop-Service -Name dmwappushservice -Force -ErrorAction SilentlyContinue"""
+    subprocess.run(["powershell","-NoProfile","-ExecutionPolicy","Bypass","-Command",ps])
+#       Clear Taskbar
+def clear_taskbar():
+    log("Cleaning Taskbar")
+    ps=r'''$shell=New-Object -ComObject Shell.Application
+    $apps=$shell.Namespace("shell:::{4234d49b-0245-4df3-b780-3893943456e1}").Items()
+    $manter=@("File Explorer","Explorador de Arquivos","Configurações","Terminal","Helium","Steam","Discord,VS Code, Kate")
+    foreach($item in $apps){if($manter -contains $item.Name){$item.InvokeVerb("taskbarpin")}else{$item.InvokeVerb("taskbarunpin")}}'''
+    subprocess.run(["powershell","-NoProfile","-ExecutionPolicy","Bypass","-Command",ps])
+#       Set power plan to high performance
+def power_plan_high_performance():
+    log("Energy Plan to High Performance")
+    guid="8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c"
+    subprocess.run(["powercfg","-duplicatescheme",guid],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+    subprocess.run(["powercfg","/setactive",guid])
+#       Disable Startup Delay
+def disable_startup_delay():
+    log("Disabling Startup Delay")
+    set_reg(winreg.HKEY_CURRENT_USER,r"Software\Microsoft\Windows\CurrentVersion\Explorer\Serialize","StartupDelayInMSec",winreg.REG_DWORD,0)
+#   Script Responsible for activating all def's
+def windows_custom_setup_commercial():
+    download_pinalto()
+    align_taskbar_left();   power_plan_high_performance()
+    disable_widgets_and_search_box();   enable_dark_mode();
+    disable_startup_delay();clear_taskbar();    enable_end_task()
+    debloat_windows(); disable_telemetry(); show_file_extensions()
+    restart_explorer(); download_and_apply_wallpaper("https://github.com/GabeSvbr/Pinaltos_PcManager/blob/91055a5d3a3004230a36d68acffe871a8b594322/Wallpapers/martin-martz-X5fEKadz0Xc-unsplash.jpg")
+    log("Process Finished!"); confirmation()
 # Option 9 Full-Shutdown
 def shutdown():
     os.system("shutdown /s /f /t 0")
-
 # Main Navigator
 
 def menu_windows():
@@ -317,6 +356,8 @@ def menu_windows():
         elif opc == 2:  windows_setup()
         elif opc == 3:  windows_list_components()
         elif opc == 4:  links_manager()
+        elif opc == 7:  download_and_apply_wallpaper("https://github.com/GabeSvbr/Pinaltos_PcManager/blob/54e04a7041ed4e9385fdf6fe8425ede9d1c56a94/Wallpapers/wallpaper%201.jpg"); confirmation()
+        elif opc == 8:  windows_custom_setup_commercial()
         elif opc == 9:  shutdown()
         else:
             cont1 += 1; clear_console()
@@ -326,7 +367,5 @@ def menu_windows():
 def main():
     menu_windows()
 
-
 # ===================================================== RUN ====================================================#"
 main()
-
