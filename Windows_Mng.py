@@ -1,5 +1,5 @@
 import os, sys, subprocess, time, webbrowser, winreg, ctypes,  urllib.request
-version = "Version 1.77"
+version = "Version 1.78"
 
 # Utilities
 def clear_console():
@@ -339,7 +339,7 @@ def reset_pins():
 
 #   Download Commercial and Private
 def download_pinalto():
-    install("Python.Python.3.13");install("ImputNet.Helium");install("Discord.Discord")
+    install("Python.Python.3.13");install("ImputNet.Helium");install("Vencord.Vesktop")
 def download_commercial():
     install("ImputNet.Helium")
 
@@ -362,7 +362,7 @@ def windows_custom_setup_pinalto():
     clear_console(); log("It is advised NOT to interact with the terminal until process is finished.")
     download_pinalto()
     windows_cleanup()
-    download_and_apply_wallpaper("https://github.com/GabeSvbr/Pinaltos_PcManager/blob/main/Wallpapers/wallpaper%201.jpg")
+    download_and_apply_wallpaper("https://github.com/GabeSvbr/Pinaltos_PcManager/blob/1978d3d5ba0f290b9d1045cabb4bc4ea09167fe0/Wallpapers/dl-nozlc4ncyvi0.png")
     log("Process Finished!"); confirmation()
 
 #Option 5 Windows Refresh
