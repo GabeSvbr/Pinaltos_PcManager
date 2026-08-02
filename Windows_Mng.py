@@ -1,5 +1,5 @@
 import os, sys, subprocess, time, webbrowser, winreg, ctypes,  urllib.request
-version = "Version 1.75"
+version = "Version 1.77"
 
 # Utilities
 def clear_console():
@@ -38,6 +38,7 @@ def windows_main_menu_print():
     print("\033[1m |  \033[1;38;2;124;77;255m2 ➜ \033[0m \033[1;38;2;216;200;255mSetup Options\033[0m                                   |\033[0m")
     print("\033[1m |  \033[1;38;2;124;77;255m3 ➜ \033[0m \033[1;38;2;216;200;255mList Machine Components\033[0m                         |\033[0m")
     print("\033[1m |  \033[1;38;2;124;77;255m4 ➜ \033[0m \033[1;38;2;216;200;255mFun Links\033[0m                                       |\033[0m")
+    print("\033[1m |  \033[1;38;2;124;77;255m5 ➜ \033[0m \033[1;38;2;216;200;255mRefresh Windows\033[0m                                 |\033[0m")
     print("\033[1m |  \033[1;38;2;124;77;255m7 ➜ \033[0m \033[1;38;2;255;165;0mCustom Windows Setup (private)\033[0m                  |\033[0m")
     print("\033[1m |  \033[1;38;2;124;77;255m8 ➜ \033[0m \033[1;38;2;255;165;0mCustom Windows Setup (comercial)\033[0m                |\033[0m")
     print("\033[1m |  \033[1;38;2;124;77;255m9 ➜ \033[0m \033[1;38;2;180;0;0mShutdown /s /f /t 0\033[0m                             |\033[0m")
@@ -364,6 +365,42 @@ def windows_custom_setup_pinalto():
     download_and_apply_wallpaper("https://github.com/GabeSvbr/Pinaltos_PcManager/blob/main/Wallpapers/wallpaper%201.jpg")
     log("Process Finished!"); confirmation()
 
+#Option 5 Windows Refresh
+import ctypes, os, subprocess, time
+
+CREATE_NO_WINDOW = 0x08000000
+def _rodar(cmd):
+    subprocess.run(cmd, shell=True, capture_output=True, text=True,
+                    creationflags=CREATE_NO_WINDOW)
+def reiniciar_explorer():
+    _rodar("taskkill /f /im explorer.exe")
+    time.sleep(1.5)
+    subprocess.Popen("explorer.exe")
+def reiniciar_driver_video():
+    user32 = ctypes.windll.user32
+    KEYEVENTF_KEYUP = 0x0002
+    teclas = [0x11, 0x10, 0x5B, 0x42]  # Ctrl, Shift, Win, B
+    for t in teclas:
+        user32.keybd_event(t, 0, 0, 0); time.sleep(0.03)
+    time.sleep(0.15)
+    for t in reversed(teclas):
+        user32.keybd_event(t, 0, KEYEVENTF_KEYUP, 0); time.sleep(0.03)
+def limpar_cache_icones():
+    _rodar("taskkill /f /im explorer.exe")
+    time.sleep(1)
+    cache = os.path.expandvars(r"%LocalAppData%\Microsoft\Windows\Explorer")
+    _rodar(f'del /a /q "{cache}\\iconcache_*.db"')
+    time.sleep(1)
+    subprocess.Popen("explorer.exe")
+def flush_dns():
+    _rodar("ipconfig /flushdns")
+def reiniciar_audio():
+    _rodar("sc stop audiosrv")
+    time.sleep(1)
+    _rodar("sc start audiosrv")
+def windows_refresh():
+    reiniciar_audio(); reiniciar_driver_video(); flush_dns(); limpar_cache_icones()
+
 # Option 9 Full-Shutdown
 def shutdown():
     os.system("shutdown /s /f /t 0")
@@ -382,6 +419,7 @@ def menu_windows():
         elif opc == 2:  windows_setup()
         elif opc == 3:  windows_list_components()
         elif opc == 4:  links_manager()
+        elif opc == 5:  windows_refresh()
         elif opc == 7:  windows_custom_setup_pinalto()
         elif opc == 8:  windows_custom_setup_commercial()
         elif opc == 9:  shutdown()
